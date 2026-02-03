@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bon Idee Bouviers</title>
+  <meta name="description" content="Bon Idee Bouviers - purpose-bred Bouviers with structure, temperament, and health at the center." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">Bon Idee Bouviers</a>
+      <nav class="links">
+        <a href="#dogs">The Dogs</a>
+        <a href="#puppies">Puppies</a>
+        <a href="#health">Health</a>
+        <a href="#contact" class="btn">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Purpose-bred Bouviers, raised with intention.</h1>
+          <p>
+            A premium, simple home for our dogs, our program, and the families we place with.
+            Structure, temperament, and health come first.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#puppies">Puppy Info</a>
+            <a class="btn ghost" href="#dogs">Meet the Dogs</a>
+          </div>
+          <div class="hero-badges">
+            <span class="badge">Show</span>
+            <span class="badge">Working</span>
+            <span class="badge">Family</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="photo placeholder">
+            <span>Add hero photo later</span>
+          </div>
+          <div class="card-meta">
+            <p class="small">Tip: Start with one great hero image and 6-12 strong photos total.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dogs" class="section">
+      <div class="container">
+        <h2>The Dogs</h2>
+        <p class="muted">A curated look at the Bouviers that represent our program.</p>
+
+        <div class="grid">
+          <article class="tile">
+            <div class="tile-photo placeholder"><span>Dog Photo</span></div>
+            <h3>Dog Name</h3>
+            <p class="small muted">Titles / call name / short note</p>
+          </article>
+
+          <article class="tile">
+            <div class="tile-photo placeholder"><span>Dog Photo</span></div>
+            <h3>Dog Name</h3>
+            <p class="small muted">Titles / call name / short note</p>
+          </article>
+
+          <article class="tile">
+            <div class="tile-photo placeholder"><span>Dog Photo</span></div>
+            <h3>Dog Name</h3>
+            <p class="small muted">Titles / call name / short note</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="puppies" class="section alt">
+      <div class="container">
+        <h2>Puppies</h2>
+        <p class="muted">We place thoughtfully. Here is what to expect.</p>
+
+        <div class="split">
+          <div class="panel">
+            <h3>How placements work</h3>
+            <ul>
+              <li>Short introduction and goals</li>
+              <li>Temperament match first</li>
+              <li>Support before and after pickup</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Current plans</h3>
+            <p class="muted small">Add planned litters, timelines, or “join the waitlist” info here.</p>
+            <a class="btn" href="#contact">Inquire</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="health" class="section">
+      <div class="container">
+        <h2>Health Testing</h2>
+        <p class="muted">
+          Replace this with your exact testing list and links (OFA, etc).
+        </p>
+        <div class="panels">
+          <div class="panel">
+            <h3>What we test</h3>
+            <p class="small muted">Hips, elbows, eyes, cardiac, thyroid, DNA, etc (your list).</p>
+          </div>
+          <div class="panel">
+            <h3>Why it matters</h3>
+            <p class="small muted">A short, calm statement about long-term soundness and quality of life.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section alt">
+      <div class="container">
+        <h2>Contact</h2>
+        <p class="muted">Use email for now, we can add a form later.</p>
+        <a class="btn" href="mailto:your@email.com">Email Bon Idee</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="small muted">© <span id="year"></span> Bon Idee Bouviers</p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
