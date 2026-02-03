@@ -210,3 +210,8 @@ p{margin:0 0 14px}
   .grid{grid-template-columns: 1fr}
   .split,.panels{grid-template-columns: 1fr}
 }
+/* Hide placeholder helper text when a real background image is present */
+.media[style*="background-image"] span,
+.card-media[style*="background-image"] span {
+  display: none;
+}
