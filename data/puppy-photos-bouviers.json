@@ -1,7 +1,29 @@
 {
   "breed": "bouviers",
-  "generatedAt": "2026-02-04T04:05:12.187Z",
+  "generatedAt": "2026-02-04T04:18:24.322Z",
   "keepDays": 90,
-  "current": [],
+  "current": [
+    {
+      "filename": "IMG_6992_a248ef93df.png",
+      "url": "./images/puppies/bouviers/current/IMG_6992_a248ef93df.png",
+      "driveName": "IMG_6992.PNG",
+      "modifiedTime": "2026-02-04T04:14:07.140Z",
+      "ageDays": 0
+    },
+    {
+      "filename": "IMG_6994_02a3ea6d5b.png",
+      "url": "./images/puppies/bouviers/current/IMG_6994_02a3ea6d5b.png",
+      "driveName": "IMG_6994.PNG",
+      "modifiedTime": "2026-02-04T04:14:02.801Z",
+      "ageDays": 0
+    },
+    {
+      "filename": "IMG_6993_116602c931.png",
+      "url": "./images/puppies/bouviers/current/IMG_6993_116602c931.png",
+      "driveName": "IMG_6993.PNG",
+      "modifiedTime": "2026-02-04T04:13:58.945Z",
+      "ageDays": 0
+    }
+  ],
   "archiveCount": 3
 }
