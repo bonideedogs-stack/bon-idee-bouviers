@@ -107,6 +107,39 @@
         <a class="btn" href="index.html#puppies">Go to Puppies</a>
       </div>
     </section>
+<section class="section alt" id="puppy-window">
+  <div class="container">
+    <div class="section-head">
+      <h2>Puppy Window</h2>
+      <p class="muted">Recent puppy photos from the last 90 days.</p>
+    </div>
+
+    <div id="puppyGalleryLowchen" class="grid"></div>
+  </div>
+</section>
+
+<script>
+  (async () => {
+    const res = await fetch("./data/puppy-photos-lowchen.json", { cache: "no-store" });
+    const data = await res.json();
+    const el = document.getElementById("puppyGalleryLowchen");
+
+    const items = (data.current || []).slice(0, 12);
+    if (!items.length) {
+      el.innerHTML = '<p class="muted">No recent puppy photos yet.</p>';
+      return;
+    }
+
+    el.innerHTML = items.map(p => `
+      <article class="card">
+        <div class="card-media" style="background-image:url('${p.url}'); background-size:cover; background-position:center;"></div>
+        <div class="card-body">
+          <p class="small muted">${new Date(p.modifiedTime).toLocaleDateString()}</p>
+        </div>
+      </article>
+    `).join("");
+  })();
+</script>
 
     <footer class="footer">
       <div class="container footer-inner">
