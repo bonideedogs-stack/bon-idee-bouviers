@@ -1,1 +1,40 @@
+name: Sync Puppy Availability from Google Sheets
 
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/10 * * * *" # every 10 minutes (best effort)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-availability
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Export availability JSON
+        env:
+          SHEET_ID: ${{ secrets.AVAIL_SHEET_ID }}
+          BOUVIERS_GID: ${{ secrets.AVAIL_BOUVIERS_GID }}
+          LOWCHEN_GID: ${{ secrets.AVAIL_LOWCHEN_GID }}
+        run: node scripts/export_availability.js
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data
+          git commit -m "Sync puppy availability" || echo "No changes to commit"
+          git push
