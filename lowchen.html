@@ -107,39 +107,27 @@
         <a class="btn" href="index.html#puppies">Go to Puppies</a>
       </div>
     </section>
-<section class="section alt" id="puppy-window">
-  <div class="container">
-    <div class="section-head">
-      <h2>Puppy Window</h2>
-      <p class="muted">Recent puppy photos from the last 90 days.</p>
-    </div>
 
-    <div id="puppyGalleryLowchen" class="grid"></div>
-  </div>
-</section>
-
-<script>
-  (async () => {
-    const res = await fetch("./data/puppy-photos-lowchen.json", { cache: "no-store" });
-    const data = await res.json();
-    const el = document.getElementById("puppyGalleryLowchen");
-
-    const items = (data.current || []).slice(0, 12);
-    if (!items.length) {
-      el.innerHTML = '<p class="muted">No recent puppy photos yet.</p>';
-      return;
-    }
-
-    el.innerHTML = items.map(p => `
-      <article class="card">
-        <div class="card-media" style="background-image:url('${p.url}'); background-size:cover; background-position:center;"></div>
-        <div class="card-body">
-          <p class="small muted">${new Date(p.modifiedTime).toLocaleDateString()}</p>
+    <section class="section alt" id="puppy-window">
+      <div class="container">
+        <div class="section-head">
+          <h2>Puppy Window</h2>
+          <p class="muted">All puppy photos from the last 90 days. Click any image to view full size.</p>
         </div>
-      </article>
-    `).join("");
-  })();
-</script>
+
+        <div id="puppyGalleryLowchen" class="grid"></div>
+      </div>
+    </section>
+
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+      <div class="lightbox-inner" role="dialog" aria-modal="true">
+        <div class="lightbox-top">
+          <div id="lightboxTitle" class="lightbox-title"></div>
+          <button id="lightboxClose" class="lightbox-close" type="button">Close</button>
+        </div>
+        <img id="lightboxImg" alt="Puppy photo" />
+      </div>
+    </div>
 
     <footer class="footer">
       <div class="container footer-inner">
@@ -151,6 +139,70 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+    (async () => {
+      const res = await fetch("./data/puppy-photos-lowchen.json", { cache: "no-store" });
+      const data = await res.json();
+      const el = document.getElementById("puppyGalleryLowchen");
+
+      const items = (data.current || []); // show ALL
+      if (!items.length) {
+        el.innerHTML = '<p class="muted">No recent puppy photos yet.</p>';
+        return;
+      }
+
+      el.innerHTML = items.map((p, i) => `
+        <article class="card">
+          <a href="${p.url}" class="lb-item" data-url="${p.url}" data-title="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" aria-label="Open photo ${i + 1}">
+            <div class="card-media imgwrap">
+              <img loading="lazy" src="${p.url}" alt="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" />
+            </div>
+          </a>
+          <div class="card-body">
+            <p class="small muted">${new Date(p.modifiedTime).toLocaleDateString()}</p>
+          </div>
+        </article>
+      `).join("");
+
+      const lightbox = document.getElementById("lightbox");
+      const lbImg = document.getElementById("lightboxImg");
+      const lbTitle = document.getElementById("lightboxTitle");
+      const lbClose = document.getElementById("lightboxClose");
+
+      function openLightbox(url, title) {
+        lbImg.src = url;
+        lbTitle.textContent = title || "";
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lbImg.src = "";
+        document.body.style.overflow = "";
+      }
+
+      el.addEventListener("click", (e) => {
+        const a = e.target.closest(".lb-item");
+        if (!a) return;
+        e.preventDefault();
+        openLightbox(a.dataset.url, a.dataset.title);
+      });
+
+      lbClose.addEventListener("click", closeLightbox);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    })();
   </script>
 </body>
 </html>
