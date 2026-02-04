@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lowchen | Bon Idee</title>
+  <meta name="description" content="Bon Idee Lowchen. Our Lowchen." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="./">Bon Idee</a>
+
+      <nav class="links">
+        <a href="bouviers.html">Bouviers</a>
+        <a href="lowchen.html" aria-current="page">Lowchen</a>
+        <a href="index.html#puppies">Puppies</a>
+        <a href="index.html#health">Health</a>
+        <a class="btn" href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Lowchen</h2>
+          <p class="muted">Meet the Lowchen that represent our program.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-media placeholder"><span>Lowchen photo</span></div>
+            <div class="card-body">
+              <h3>Dog Name</h3>
+              <p class="small muted">Call name • Titles • Short note</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media placeholder"><span>Lowchen photo</span></div>
+            <div class="card-body">
+              <h3>Dog Name</h3>
+              <p class="small muted">Call name • Titles • Short note</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media placeholder"><span>Lowchen photo</span></div>
+            <div class="card-body">
+              <h3>Dog Name</h3>
+              <p class="small muted">Call name • Titles • Short note</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p class="small muted">© <span id="year"></span> Bon Idee</p>
+        <p class="small muted"><a class="muted" href="./">Back to Home</a></p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
