@@ -110,9 +110,8 @@
 
     <section class="section alt" id="puppy-window">
       <div class="container">
-        <div class="section-head">
-          <h2>Puppy Window</h2>
-          <p class="muted">All puppy photos from the last 90 days. Click any image to view full size.</p>
+        <div class="section-head">     
+         <h2>Current puppies in our lineup</h2>   
         </div>
 
         <div id="puppyGalleryLowchen" class="grid"></div>
@@ -160,9 +159,6 @@
               <img loading="lazy" src="${p.url}" alt="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" />
             </div>
           </a>
-          <div class="card-body">
-            <p class="small muted">${new Date(p.modifiedTime).toLocaleDateString()}</p>
-          </div>
         </article>
       `).join("");
 
