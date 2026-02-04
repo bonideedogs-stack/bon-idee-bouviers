@@ -20,10 +20,10 @@ function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
 }
 
-function reqEnv(name) {
+function getEnv(name) {
   const v = process.env[name];
-  if (typeof v !== "string" || v.trim() === "") return null;
-  return v.trim();
+  if (v === undefined || v === null) return "";
+  return String(v).trim();
 }
 
 function parseGid(v) {
@@ -32,7 +32,6 @@ function parseGid(v) {
 }
 
 function truthyCheckbox(v) {
-  // Sheets checkbox typically: TRUE/FALSE (strings) or booleans
   if (v === true) return true;
   const s = String(v || "").trim().toLowerCase();
   return s === "true" || s === "yes" || s === "y" || s === "1";
@@ -51,8 +50,8 @@ function findHeaderIndex(headers, candidates) {
   return -1;
 }
 
-async function getDriveSheetsClients() {
-  const raw = reqEnv("GDRIVE_SERVICE_ACCOUNT_JSON");
+async function getSheetsClient() {
+  const raw = getEnv("GDRIVE_SERVICE_ACCOUNT_JSON");
   if (!raw) throw new Error("Missing env: GDRIVE_SERVICE_ACCOUNT_JSON");
 
   const creds = JSON.parse(raw);
@@ -66,8 +65,7 @@ async function getDriveSheetsClients() {
     ],
   });
 
-  const sheets = google.sheets({ version: "v4", auth });
-  return { sheets };
+  return google.sheets({ version: "v4", auth });
 }
 
 async function gidToSheetTitle(sheets, spreadsheetId, gid) {
@@ -80,17 +78,17 @@ async function gidToSheetTitle(sheets, spreadsheetId, gid) {
     (s) => s?.properties?.sheetId === gid
   );
 
-  if (!found || !found.properties || !found.properties.title) {
-    throw new Error(`Could not find a sheet tab with gid=${gid}. Check AVAIL_*_GID values.`);
+  if (!found?.properties?.title) {
+    throw new Error(`Could not find a sheet tab with gid=${gid}. Check AVAIL_*_GID secrets.`);
   }
 
   return found.properties.title;
 }
 
-async function fetchRowsByTitle(sheets, spreadsheetId, title) {
+async function fetchTabRows(sheets, spreadsheetId, tabTitle) {
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId,
-    range: title,
+    range: tabTitle,
     majorDimension: "ROWS",
   });
 
@@ -102,17 +100,16 @@ async function fetchRowsByTitle(sheets, spreadsheetId, title) {
   return { headers, rows };
 }
 
-function buildAvailability({ breedKey, headers, rows }) {
-  // Your headers:
-  // Available? | Litter | DOB | Collar color | Sex | Coat Color
-  // We’ll match these case-insensitively and tolerate small variations.
-
+function buildAvailability(headers, rows, breedKey) {
+  // Expected columns:
+  // Available? | Litter | DOB | Collar color | Sex | Coat Color | Photo
   const idxAvail = findHeaderIndex(headers, ["Available?", "Available", "Available ?"]);
   const idxLitter = findHeaderIndex(headers, ["Litter"]);
   const idxDob = findHeaderIndex(headers, ["DOB", "Date of Birth"]);
   const idxCollar = findHeaderIndex(headers, ["Collar color", "Collar Color", "Collar"]);
   const idxSex = findHeaderIndex(headers, ["Sex"]);
   const idxCoat = findHeaderIndex(headers, ["Coat Color", "Coat colour", "Coat"]);
+  const idxPhoto = findHeaderIndex(headers, ["Photo", "Photo URL", "Image", "Image URL"]);
 
   const available = [];
 
@@ -126,6 +123,7 @@ function buildAvailability({ breedKey, headers, rows }) {
       collarColor: idxCollar >= 0 ? (r[idxCollar] || "") : "",
       sex: idxSex >= 0 ? (r[idxSex] || "") : "",
       coatColor: idxCoat >= 0 ? (r[idxCoat] || "") : "",
+      photo: idxPhoto >= 0 ? (String(r[idxPhoto] || "").trim()) : ""
     });
   }
 
@@ -138,22 +136,22 @@ function buildAvailability({ breedKey, headers, rows }) {
 }
 
 async function exportOne({ sheets, spreadsheetId, gid, breedKey, outFile }) {
-  const title = await gidToSheetTitle(sheets, spreadsheetId, gid);
-  const { headers, rows } = await fetchRowsByTitle(sheets, spreadsheetId, title);
-  const out = buildAvailability({ breedKey, headers, rows });
+  const tabTitle = await gidToSheetTitle(sheets, spreadsheetId, gid);
+  const { headers, rows } = await fetchTabRows(sheets, spreadsheetId, tabTitle);
+  const out = buildAvailability(headers, rows, breedKey);
 
   ensureDir("data");
   fs.writeFileSync(path.join("data", outFile), JSON.stringify(out, null, 2));
-  console.log(`Wrote data/${outFile} from tab "${title}" (gid=${gid})`);
+  console.log(`Wrote data/${outFile} from tab "${tabTitle}" (gid=${gid})`);
 }
 
 async function main() {
-  const spreadsheetId = reqEnv("AVAIL_SHEET_ID");
-  const bouviersGid = parseGid(reqEnv("AVAIL_BOUVIERS_GID"));
-  const lowchenGid = parseGid(reqEnv("AVAIL_LOWCHEN_GID"));
+  const sheetId = getEnv("AVAIL_SHEET_ID");
+  const bouviersGid = parseGid(getEnv("AVAIL_BOUVIERS_GID"));
+  const lowchenGid = parseGid(getEnv("AVAIL_LOWCHEN_GID"));
 
   const missing = [];
-  if (!spreadsheetId) missing.push("AVAIL_SHEET_ID");
+  if (!sheetId) missing.push("AVAIL_SHEET_ID");
   if (bouviersGid === null) missing.push("AVAIL_BOUVIERS_GID");
   if (lowchenGid === null) missing.push("AVAIL_LOWCHEN_GID");
 
@@ -161,11 +159,11 @@ async function main() {
     throw new Error(`Missing secrets: ${missing.join(", ")}`);
   }
 
-  const { sheets } = await getDriveSheetsClients();
+  const sheets = await getSheetsClient();
 
   await exportOne({
     sheets,
-    spreadsheetId,
+    spreadsheetId: sheetId,
     gid: bouviersGid,
     breedKey: "bouviers",
     outFile: "available-bouviers.json",
@@ -173,7 +171,7 @@ async function main() {
 
   await exportOne({
     sheets,
-    spreadsheetId,
+    spreadsheetId: sheetId,
     gid: lowchenGid,
     breedKey: "lowchen",
     outFile: "available-lowchen.json",
