@@ -1,6 +1,6 @@
 {
   "breed": "bouviers",
-  "generatedAt": "2026-02-04T21:00:19.951Z",
+  "generatedAt": "2026-02-04T22:15:14.320Z",
   "availableCount": 1,
   "available": [
     {
@@ -8,7 +8,8 @@
       "dob": "2/1/2026",
       "collarColor": "Red",
       "sex": "male",
-      "coatColor": "fawn"
+      "coatColor": "fawn",
+      "photo": "5522.JPEG"
     }
   ]
 }
