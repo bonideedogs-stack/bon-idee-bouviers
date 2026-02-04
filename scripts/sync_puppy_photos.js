@@ -5,6 +5,10 @@ const { google } = require("googleapis");
 
 const DAYS_TO_KEEP_CURRENT = 90;
 
+// We store "first seen" timestamps here so the 90-day window is based on
+// when the file enters your system, not the camera date and not Drive metadata.
+const MANIFEST_PATH = path.join("data", "puppy-photo-manifest.json");
+
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
 }
@@ -13,13 +17,27 @@ function sha1(s) {
   return crypto.createHash("sha1").update(s).digest("hex");
 }
 
-function isoDate(d) {
-  return new Date(d).toISOString();
+function nowIso() {
+  return new Date().toISOString();
 }
 
-function daysAgo(d) {
-  const ms = Date.now() - new Date(d).getTime();
+function daysBetweenIso(olderIso, newerIso) {
+  const ms = new Date(newerIso).getTime() - new Date(olderIso).getTime();
   return Math.floor(ms / (1000 * 60 * 60 * 24));
+}
+
+function readManifest() {
+  try {
+    if (!fs.existsSync(MANIFEST_PATH)) return { version: 1, firstSeen: {} };
+    return JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf8"));
+  } catch {
+    return { version: 1, firstSeen: {} };
+  }
+}
+
+function writeManifest(manifest) {
+  ensureDir(path.dirname(MANIFEST_PATH));
+  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2));
 }
 
 async function getDriveClient() {
@@ -61,7 +79,9 @@ async function listFilesInFolder(drive, folderId) {
     if (!pageToken) break;
   }
 
-  files.sort((a, b) => new Date(b.modifiedTime) - new Date(a.modifiedTime));
+  // Keep a stable “nice” order: newest uploads/edits first based on Drive modifiedTime.
+  // This is only for ordering, not for the 90-day rule.
+  files.sort((a, b) => new Date(b.modifiedTime || b.createdTime) - new Date(a.modifiedTime || a.createdTime));
   return files;
 }
 
@@ -81,7 +101,7 @@ function safeFilename(name) {
   return base || `photo_${Date.now()}.jpg`;
 }
 
-async function syncBreed({ drive, breedKey, folderId }) {
+async function syncBreed({ drive, breedKey, folderId, manifest, runNowIso }) {
   const baseDir = path.join("images", "puppies", breedKey);
   const currentDir = path.join(baseDir, "current");
   const archiveDir = path.join(baseDir, "archive");
@@ -93,17 +113,27 @@ async function syncBreed({ drive, breedKey, folderId }) {
 
   const files = await listFilesInFolder(drive, folderId);
 
+  manifest.firstSeen[breedKey] = manifest.firstSeen[breedKey] || {};
+
   const current = [];
   let archiveCount = 0;
 
   for (const f of files) {
-    const ageDays = daysAgo(f.modifiedTime || f.createdTime);
+    // Establish firstSeen the first time we encounter this Drive file id.
+    if (!manifest.firstSeen[breedKey][f.id]) {
+      manifest.firstSeen[breedKey][f.id] = runNowIso;
+    }
+
+    const firstSeenIso = manifest.firstSeen[breedKey][f.id];
+    const ageDays = daysBetweenIso(firstSeenIso, runNowIso);
     const isArchive = ageDays > DAYS_TO_KEEP_CURRENT;
 
     const extMatch = (f.name || "").match(/\.(jpe?g|png|webp)$/i);
     const ext = extMatch ? extMatch[0].toLowerCase() : ".jpg";
 
-    const stableName = `${safeFilename(path.parse(f.name || "photo").name)}_${sha1(f.id).slice(0, 10)}${ext}`;
+    const stableName =
+      `${safeFilename(path.parse(f.name || "photo").name)}_${sha1(f.id).slice(0, 10)}${ext}`;
+
     const destDir = isArchive ? archiveDir : currentDir;
     const destPath = path.join(destDir, stableName);
 
@@ -112,21 +142,23 @@ async function syncBreed({ drive, breedKey, folderId }) {
     }
 
     const relUrl = `./${destPath.replace(/\\/g, "/")}`;
-    const item = {
-      filename: stableName,
-      url: relUrl,
-      driveName: f.name,
-      modifiedTime: isoDate(f.modifiedTime || f.createdTime),
-      ageDays,
-    };
 
-    if (isArchive) archiveCount += 1;
-    else current.push(item);
+    if (isArchive) {
+      archiveCount += 1;
+    } else {
+      current.push({
+        filename: stableName,
+        url: relUrl,
+        driveName: f.name,
+        firstSeen: firstSeenIso,
+        ageDays,
+      });
+    }
   }
 
   const out = {
     breed: breedKey,
-    generatedAt: new Date().toISOString(),
+    generatedAt: runNowIso,
     keepDays: DAYS_TO_KEEP_CURRENT,
     current,
     archiveCount,
@@ -147,8 +179,13 @@ async function main() {
   const lowchenId = process.env.GDRIVE_LOWCHEN_FOLDER_ID;
   if (!bouviersId || !lowchenId) throw new Error("Missing folder id secret(s)");
 
-  await syncBreed({ drive, breedKey: "bouviers", folderId: bouviersId });
-  await syncBreed({ drive, breedKey: "lowchen", folderId: lowchenId });
+  const runNowIso = nowIso();
+  const manifest = readManifest();
+
+  await syncBreed({ drive, breedKey: "bouviers", folderId: bouviersId, manifest, runNowIso });
+  await syncBreed({ drive, breedKey: "lowchen", folderId: lowchenId, manifest, runNowIso });
+
+  writeManifest(manifest);
 }
 
 main().catch((err) => {
