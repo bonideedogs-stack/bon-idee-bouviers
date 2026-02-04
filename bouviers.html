@@ -111,6 +111,48 @@
         <a class="btn" href="index.html#puppies">Go to Puppies</a>
       </div>
     </section>
+<section class="section" id="available">
+  <div class="container">
+    <div class="section-head">
+      <h2>Who We Have Left</h2>
+      <p class="muted">Availability updates automatically.</p>
+    </div>
+
+    <div id="availableBouviers" class="grid"></div>
+  </div>
+</section>
+
+<script>
+  (async () => {
+    const res = await fetch("./data/available-bouviers.json", { cache: "no-store" });
+    const data = await res.json();
+    const el = document.getElementById("availableBouviers");
+
+    const items = (data.available || []);
+    if (!items.length) {
+      el.innerHTML = `
+        <div class="panel">
+          <h3>No puppies currently available</h3>
+          <p class="small muted">If you would like to be considered for a future litter, please apply.</p>
+          <a class="btn" href="#apply">Apply</a>
+        </div>
+      `;
+      return;
+    }
+
+    el.innerHTML = items.map(p => `
+      <article class="card">
+        <div class="card-body">
+          <h3>${p.litter || "Litter"}</h3>
+          <p class="small muted">DOB: ${p.dob || "TBD"}</p>
+          <p class="small muted">Collar: ${p.collarColor || "TBD"}</p>
+          <p class="small muted">Sex: ${p.sex || "TBD"}</p>
+          <p class="small muted">Coat: ${p.coatColor || "TBD"}</p>
+        </div>
+      </article>
+    `).join("");
+  })();
+</script>
 
     <section class="section alt" id="puppy-window">
       <div class="container">
