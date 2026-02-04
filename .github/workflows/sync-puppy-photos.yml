@@ -3,10 +3,14 @@ name: Sync Puppy Photos from Google Drive
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 13 * * *" # daily 13:00 UTC (morning in CA most of the year)
+    - cron: "*/10 * * * *" # every 10 minutes (best effort)
 
 permissions:
   contents: write
+
+concurrency:
+  group: sync-puppy-photos
+  cancel-in-progress: true
 
 jobs:
   sync:
