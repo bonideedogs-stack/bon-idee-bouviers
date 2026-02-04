@@ -21,9 +21,9 @@
       <nav class="links">
         <a href="bouviers.html" aria-current="page">Bouviers</a>
         <a href="lowchen.html">Lowchen</a>
-        <a href="index.html#puppies">Puppies</a>
-        <a href="index.html#health">Health</a>
-        <a class="btn" href="index.html#contact">Contact</a>
+        <a href="index.html#collection">Bon Idee Collection</a>
+        <a href="index.html#contact">Contact</a>
+        <a class="btn" href="index.html#contact">Inquire</a>
       </nav>
     </div>
   </header>
@@ -40,7 +40,7 @@
 
           <div class="hero-actions">
             <a class="btn" href="#dogs">Meet Our Bouviers</a>
-            <a class="btn ghost" href="index.html#contact">Inquire</a>
+            <a class="btn ghost" href="#application">Puppy Application</a>
           </div>
 
           <div class="badges">
@@ -102,62 +102,33 @@
       </div>
     </section>
 
-    <section class="section alt">
+    <section class="section" id="available">
       <div class="container">
         <div class="section-head">
-          <h2>Bouvier Puppies</h2>
-          <p class="muted">For plans, process, and placement details, see Puppies on the main page.</p>
+          <h2>Currently Available</h2>
+          <p class="muted">Availability updates automatically.</p>
         </div>
-        <a class="btn" href="index.html#puppies">Go to Puppies</a>
+
+        <div id="availableBouviers" class="grid"></div>
       </div>
     </section>
-<section class="section" id="available">
-  <div class="container">
-    <div class="section-head">
-      <h2>Who We Have Left</h2>
-      <p class="muted">Availability updates automatically.</p>
-    </div>
 
-    <div id="availableBouviers" class="grid"></div>
-  </div>
-</section>
-
-<script>
-  (async () => {
-    const res = await fetch("./data/available-bouviers.json", { cache: "no-store" });
-    const data = await res.json();
-    const el = document.getElementById("availableBouviers");
-
-    const items = (data.available || []);
-    if (!items.length) {
-      el.innerHTML = `
-        <div class="panel">
-          <h3>No puppies currently available</h3>
-          <p class="small muted">If you would like to be considered for a future litter, please apply.</p>
-          <a class="btn" href="#apply">Apply</a>
+    <section class="section alt" id="application">
+      <div class="container">
+        <div class="section-head">
+          <h2>Bouvier Puppy Application</h2>
+          <p class="muted">Ready to apply? Fill out our puppy form to help us match you with the right fit. No obligation.</p>
         </div>
-      `;
-      return;
-    }
-
-    el.innerHTML = items.map(p => `
-      <article class="card">
-        <div class="card-body">
-          <h3>${p.litter || "Litter"}</h3>
-          <p class="small muted">DOB: ${p.dob || "TBD"}</p>
-          <p class="small muted">Collar: ${p.collarColor || "TBD"}</p>
-          <p class="small muted">Sex: ${p.sex || "TBD"}</p>
-          <p class="small muted">Coat: ${p.coatColor || "TBD"}</p>
-        </div>
-      </article>
-    `).join("");
-  })();
-</script>
+        <a class="btn" href="index.html#contact">Apply</a>
+        <p class="small muted">We will review your submission and reach out if we see a strong fit for an upcoming litter.</p>
+      </div>
+    </section>
 
     <section class="section alt" id="puppy-window">
       <div class="container">
         <div class="section-head">
-       <h2>Current puppies in our lineup</h2>
+          <h2>Puppy Window</h2>
+          <p class="muted">All puppy photos from the last 90 days. Click any image to view full size.</p>
         </div>
 
         <div id="puppyGalleryBouviers" class="grid"></div>
@@ -188,23 +159,62 @@
 
   <script>
     (async () => {
-      const res = await fetch("./data/puppy-photos-bouviers.json", { cache: "no-store" });
-      const data = await res.json();
-      const el = document.getElementById("puppyGalleryBouviers");
+      const availRes = await fetch("./data/available-bouviers.json", { cache: "no-store" });
+      const avail = await availRes.json();
 
-      const items = (data.current || []); // show ALL
+      const el = document.getElementById("availableBouviers");
+      const items = (avail.available || []);
+
       if (!items.length) {
-        el.innerHTML = '<p class="muted">No recent puppy photos yet.</p>';
+        el.innerHTML = `
+          <div class="panel">
+            <h3>No puppies currently available</h3>
+            <p class="small muted">If you would like to be considered for a future litter, please submit an application. No obligation.</p>
+            <a class="btn" href="#application">Apply</a>
+          </div>
+        `;
+      } else {
+        el.innerHTML = items.map((p) => {
+          const photo = (p.photo || "").trim();
+          const photoHtml = photo
+            ? `<div class="card-media imgwrap"><img loading="lazy" src="${photo}" alt="Available puppy photo" /></div>`
+            : `<div class="card-media placeholder"><span>Puppy photo</span></div>`;
+
+          return `
+            <article class="card">
+              ${photoHtml}
+              <div class="card-body">
+                <h3>${p.litter || "Litter"}</h3>
+                <p class="small muted">DOB: ${p.dob || "TBD"}</p>
+                <p class="small muted">Collar: ${p.collarColor || "TBD"}</p>
+                <p class="small muted">Sex: ${p.sex || "TBD"}</p>
+                <p class="small muted">Coat: ${p.coatColor || "TBD"}</p>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      const galleryRes = await fetch("./data/puppy-photos-bouviers.json", { cache: "no-store" });
+      const galleryData = await galleryRes.json();
+      const gallery = document.getElementById("puppyGalleryBouviers");
+      const galleryItems = (galleryData.current || []);
+
+      if (!galleryItems.length) {
+        gallery.innerHTML = '<p class="muted">No recent puppy photos yet.</p>';
         return;
       }
 
-      el.innerHTML = items.map((p, i) => `
+      gallery.innerHTML = galleryItems.map((p, i) => `
         <article class="card">
           <a href="${p.url}" class="lb-item" data-url="${p.url}" data-title="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" aria-label="Open photo ${i + 1}">
             <div class="card-media imgwrap">
               <img loading="lazy" src="${p.url}" alt="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" />
             </div>
           </a>
+          <div class="card-body">
+            <p class="small muted">${new Date(p.modifiedTime).toLocaleDateString()}</p>
+          </div>
         </article>
       `).join("");
 
@@ -228,7 +238,7 @@
         document.body.style.overflow = "";
       }
 
-      el.addEventListener("click", (e) => {
+      gallery.addEventListener("click", (e) => {
         const a = e.target.closest(".lb-item");
         if (!a) return;
         e.preventDefault();
