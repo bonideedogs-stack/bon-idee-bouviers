@@ -29,12 +29,14 @@ jobs:
           AVAIL_SHEET_ID: ${{ secrets.AVAIL_SHEET_ID }}
           AVAIL_BOUVIERS_GID: ${{ secrets.AVAIL_BOUVIERS_GID }}
           AVAIL_LOWCHEN_GID: ${{ secrets.AVAIL_LOWCHEN_GID }}
-        run: node scripts/export_availability.js
+        run: |
+          mkdir -p assets/available-photos
+          node scripts/export_availability.js
 
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data
+          git add data assets/available-photos
           git commit -m "Export availability" || echo "No changes to commit"
           git push
