@@ -1,6 +1,6 @@
 {
   "breed": "bouviers",
-  "generatedAt": "2026-02-04T23:52:39.281Z",
+  "generatedAt": "2026-02-04T23:54:52.600Z",
   "availableCount": 2,
   "available": [
     {
@@ -10,7 +10,7 @@
       "sex": "male",
       "coatColor": "fawn",
       "photoId": "",
-      "photo": "![image](https://github.com/user-attachments/assets/3dd27606-f114-4376-97f4-770757e282ad)"
+      "photo": "https://github.com/user-attachments/assets/3dd27606-f114-4376-97f4-770757e282ad"
     },
     {
       "litter": "Alice + Stud",
