@@ -1,29 +1,50 @@
 {
   "breed": "bouviers",
-  "generatedAt": "2026-02-04T04:18:24.322Z",
+  "generatedAt": "2026-02-04T04:39:43.941Z",
   "keepDays": 90,
   "current": [
     {
       "filename": "IMG_6992_a248ef93df.png",
       "url": "./images/puppies/bouviers/current/IMG_6992_a248ef93df.png",
       "driveName": "IMG_6992.PNG",
-      "modifiedTime": "2026-02-04T04:14:07.140Z",
+      "firstSeen": "2026-02-04T04:39:43.941Z",
       "ageDays": 0
     },
     {
       "filename": "IMG_6994_02a3ea6d5b.png",
       "url": "./images/puppies/bouviers/current/IMG_6994_02a3ea6d5b.png",
       "driveName": "IMG_6994.PNG",
-      "modifiedTime": "2026-02-04T04:14:02.801Z",
+      "firstSeen": "2026-02-04T04:39:43.941Z",
       "ageDays": 0
     },
     {
       "filename": "IMG_6993_116602c931.png",
       "url": "./images/puppies/bouviers/current/IMG_6993_116602c931.png",
       "driveName": "IMG_6993.PNG",
-      "modifiedTime": "2026-02-04T04:13:58.945Z",
+      "firstSeen": "2026-02-04T04:39:43.941Z",
+      "ageDays": 0
+    },
+    {
+      "filename": "5522_611c1ab2d1.jpeg",
+      "url": "./images/puppies/bouviers/current/5522_611c1ab2d1.jpeg",
+      "driveName": "5522.JPEG",
+      "firstSeen": "2026-02-04T04:39:43.941Z",
+      "ageDays": 0
+    },
+    {
+      "filename": "6542_7d9c896f37.jpeg",
+      "url": "./images/puppies/bouviers/current/6542_7d9c896f37.jpeg",
+      "driveName": "6542.JPEG",
+      "firstSeen": "2026-02-04T04:39:43.941Z",
+      "ageDays": 0
+    },
+    {
+      "filename": "6544_79f28e84e7.jpeg",
+      "url": "./images/puppies/bouviers/current/6544_79f28e84e7.jpeg",
+      "driveName": "6544.JPEG",
+      "firstSeen": "2026-02-04T04:39:43.941Z",
       "ageDays": 0
     }
   ],
-  "archiveCount": 3
+  "archiveCount": 0
 }
