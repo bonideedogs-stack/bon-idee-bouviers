@@ -1,7 +1,7 @@
 {
   "breed": "lowchen",
-  "generatedAt": "2026-02-04T23:51:28.734Z",
-  "availableCount": 1,
+  "generatedAt": "2026-02-04T23:52:39.670Z",
+  "availableCount": 2,
   "available": [
     {
       "litter": "Alice + Stud",
@@ -11,6 +11,15 @@
       "coatColor": "fawn",
       "photoId": "",
       "photo": "![image](https://github.com/user-attachments/assets/3dd27606-f114-4376-97f4-770757e282ad)"
+    },
+    {
+      "litter": "Alice + Stud",
+      "dob": "2/1/2026",
+      "collarColor": "blue",
+      "sex": "male",
+      "coatColor": "fawn",
+      "photoId": "",
+      "photo": ""
     }
   ]
 }
