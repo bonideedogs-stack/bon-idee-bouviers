@@ -227,3 +227,7 @@ p{margin:0 0 14px}
   background: linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.45));
   pointer-events: none;
 }
+.links a[aria-current="page"]{
+  opacity: 1;
+  color: var(--accent2);
+}
