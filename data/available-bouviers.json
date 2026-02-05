@@ -1,14 +1,6 @@
 {
   "breed": "bouviers",
-  "generatedAt": "2026-02-05T01:06:06.121Z",
-  "availableCount": 1,
-  "available": [
-    {
-      "litter": "Alice + Stud",
-      "dob": "Mon Feb 02 2026 00:00:00 GMT-0800 (Pacific Standard Time)",
-      "collarColor": "Blue",
-      "sex": "Male",
-      "coatColor": "Brindle"
-    }
-  ]
+  "generatedAt": "2026-02-05T01:09:03.576Z",
+  "availableCount": 0,
+  "available": []
 }
