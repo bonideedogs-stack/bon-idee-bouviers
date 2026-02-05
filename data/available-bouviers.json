@@ -1,21 +1,6 @@
 {
   "breed": "bouviers",
-  "generatedAt": "2026-02-05T15:27:23.470Z",
-  "availableCount": 2,
-  "available": [
-    {
-      "litter": "Alice + Stud",
-      "dob": "2/1/2026",
-      "collarColor": "Red",
-      "sex": "male",
-      "coatColor": "fawn"
-    },
-    {
-      "litter": "Alice + Stud",
-      "dob": "2/1/2026",
-      "collarColor": "Blue",
-      "sex": "male",
-      "coatColor": "fawn"
-    }
-  ]
+  "generatedAt": "2026-02-05T23:47:34.048Z",
+  "availableCount": 0,
+  "available": []
 }
