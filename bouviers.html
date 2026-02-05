@@ -1,109 +1,316 @@
-<!-- Bouvier Puppies: Currently Available (no photos) -->
-<section class="availability" aria-labelledby="available-bouviers-title">
-  <div class="availability-head">
-    <h2 id="available-bouviers-title">Currently Available</h2>
-    <p class="availability-sub">
-      Availability updates automatically. For questions, please contact us or submit an application.
-    </p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bouviers | Bon Idee</title>
+  <meta name="description" content="Bon Idee. Bouviers des Flandres. Structure, temperament, and health first." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="./">Bon Idee</a>
+
+      <nav class="links">
+        <a href="bouviers.html" aria-current="page">Bouviers</a>
+        <a href="lowchen.html">Lowchen</a>
+        <a href="index.html#puppies">Puppies</a>
+        <a href="index.html#health">Health</a>
+        <a class="btn" href="index.html#contact">Contact</a>
+        <a href="index.html#collection">Bon Idee Collection</a>
+        <a href="index.html#contact">Contact</a>
+        <a class="btn" href="index.html#contact">Inquire</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <p class="kicker">Bon Idee Collection</p>
+          <h1>Bouviers des Flandres</h1>
+          <p class="lead">
+            Confident, capable dogs with an emphasis on structure, temperament, and health.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn" href="#dogs">Meet Our Bouviers</a>
+            <a class="btn ghost" href="index.html#contact">Inquire</a>
+            <a class="btn ghost" href="#application">Puppy Application</a>
+          </div>
+
+          <div class="badges">
+            <span class="badge">Guardian</span>
+            <span class="badge">Working</span>
+            <span class="badge">Show</span>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <div class="media placeholder" style="background-image:url('./images/bouviers-hero.jpg'); background-size:cover; background-position:center;">
+            <span>Drop a hero photo at<br><strong>/images/bouviers-hero.jpg</strong></span>
+          </div>
+          <div class="media-caption">
+            <p class="small muted">
+              Bouviers page hero image.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dogs">
+      <div class="container">
+        <div class="section-head">
+          <h2>Our Bouviers</h2>
+          <p class="muted">A curated look at the dogs that represent the Bon Idee Bouvier program.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-media placeholder" style="background-image:url('./images/alice.jpg'); background-size:cover; background-position:center;">
+              <span>Dog photo</span>
+            </div>
+            <div class="card-body">
+              <h3>Alice</h3>
+              <p class="small muted">Add titles and a short line</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media placeholder" style="background-image:url('./images/vanna.jpg'); background-size:cover; background-position:center;">
+              <span>Dog photo</span>
+            </div>
+            <div class="card-body">
+              <h3>Vanna</h3>
+              <p class="small muted">Add titles and a short line</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media placeholder"><span>Dog photo</span></div>
+            <div class="card-body">
+              <h3>Dog Name</h3>
+              <p class="small muted">Call name • Titles • Short note</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+    <section class="section" id="available">
+      <div class="container">
+        <div class="section-head">
+          <h2>Bouvier Puppies</h2>
+          <p class="muted">For plans, process, and placement details, see Puppies on the main page.</p>
+          <h2>Currently Available</h2>
+          <p class="muted">Availability updates automatically.</p>
+        </div>
+        <a class="btn" href="index.html#puppies">Go to Puppies</a>
+
+        <div id="availableBouviers" class="grid"></div>
+      </div>
+    </section>
+<section class="section" id="available">
+  <div class="container">
+    <div class="section-head">
+      <h2>Who We Have Left</h2>
+      <p class="muted">Availability updates automatically.</p>
+    </div>
+
+    <div id="availableBouviers" class="grid"></div>
   </div>
-
-  <div id="available-bouviers-status" class="availability-status">Loading availability...</div>
-
-  <div id="available-bouviers-list" class="availability-list" hidden></div>
 </section>
 
-<style>
-  .availability { margin: 2.25rem 0; }
-  .availability-head { margin-bottom: 1rem; }
-  .availability-sub { margin: 0.35rem 0 0; opacity: 0.8; }
-
-  .availability-status { margin-top: 0.75rem; opacity: 0.85; }
-
-  .availability-list {
-    margin-top: 1rem;
-    display: grid;
-    gap: 0.9rem;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  }
-
-  .puppy-card {
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 14px;
-    padding: 1rem;
-    background: rgba(255,255,255,0.03);
-  }
-
-  .puppy-card h3 {
-    margin: 0 0 0.5rem;
-    font-size: 1.05rem;
-  }
-
-  .puppy-meta {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 0.35rem;
-    opacity: 0.92;
-  }
-
-  .puppy-meta li { display: flex; gap: 0.5rem; }
-  .puppy-meta strong { min-width: 92px; opacity: 0.85; font-weight: 600; }
-</style>
-
 <script>
-  (async function renderBouvierAvailability() {
-    const statusEl = document.getElementById("available-bouviers-status");
-    const listEl = document.getElementById("available-bouviers-list");
+  (async () => {
+    const res = await fetch("./data/available-bouviers.json", { cache: "no-store" });
+    const data = await res.json();
+    const el = document.getElementById("availableBouviers");
 
-    function escapeHtml(s) {
-      return String(s || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    const items = (data.available || []);
+    if (!items.length) {
+      el.innerHTML = `
+        <div class="panel">
+          <h3>No puppies currently available</h3>
+          <p class="small muted">If you would like to be considered for a future litter, please apply.</p>
+          <a class="btn" href="#apply">Apply</a>
+        </div>
+      `;
+      return;
     }
 
-    function field(v) {
-      const t = String(v || "").trim();
-      return t ? t : "Not listed";
-    }
+    el.innerHTML = items.map(p => `
+      <article class="card">
+        <div class="card-body">
+          <h3>${p.litter || "Litter"}</h3>
+          <p class="small muted">DOB: ${p.dob || "TBD"}</p>
+          <p class="small muted">Collar: ${p.collarColor || "TBD"}</p>
+          <p class="small muted">Sex: ${p.sex || "TBD"}</p>
+          <p class="small muted">Coat: ${p.coatColor || "TBD"}</p>
+    <section class="section alt" id="application">
+      <div class="container">
+        <div class="section-head">
+          <h2>Bouvier Puppy Application</h2>
+          <p class="muted">Ready to apply? Fill out our puppy form to help us match you with the right fit. No obligation.</p>
+        </div>
+      </article>
+    `).join("");
+  })();
+</script>
+        <a class="btn" href="index.html#contact">Apply</a>
+        <p class="small muted">We will review your submission and reach out if we see a strong fit for an upcoming litter.</p>
+      </div>
+    </section>
 
-    try {
-      const res = await fetch("data/available-bouviers.json", { cache: "no-store" });
-      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+    <section class="section alt" id="puppy-window">
+      <div class="container">
+        <div class="section-head">
+       <h2>Current puppies in our lineup</h2>
+          <h2>Puppy Window</h2>
+          <p class="muted">All puppy photos from the last 90 days. Click any image to view full size.</p>
+        </div>
 
+        <div id="puppyGalleryBouviers" class="grid"></div>
+      </div>
+    </section>
+
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+      <div class="lightbox-inner" role="dialog" aria-modal="true">
+        <div class="lightbox-top">
+          <div id="lightboxTitle" class="lightbox-title"></div>
+          <button id="lightboxClose" class="lightbox-close" type="button">Close</button>
+        </div>
+        <img id="lightboxImg" alt="Puppy photo" />
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p class="small muted">© <span id="year"></span> Bon Idee</p>
+        <p class="small muted"><a class="muted" href="./">Back to Home</a></p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+    (async () => {
+      const res = await fetch("./data/puppy-photos-bouviers.json", { cache: "no-store" });
       const data = await res.json();
-      const items = Array.isArray(data.available) ? data.available : [];
+      const el = document.getElementById("puppyGalleryBouviers");
+      const availRes = await fetch("./data/available-bouviers.json", { cache: "no-store" });
+      const avail = await availRes.json();
 
+      const el = document.getElementById("availableBouviers");
+      const items = (avail.available || []);
+
+      const items = (data.current || []); // show ALL
       if (!items.length) {
-        statusEl.textContent = "No puppies are listed as available at this time.";
-        listEl.hidden = true;
+        el.innerHTML = '<p class="muted">No recent puppy photos yet.</p>';
+        el.innerHTML = `
+          <div class="panel">
+            <h3>No puppies currently available</h3>
+            <p class="small muted">If you would like to be considered for a future litter, please submit an application. No obligation.</p>
+            <a class="btn" href="#application">Apply</a>
+          </div>
+        `;
+      } else {
+        el.innerHTML = items.map((p) => {
+          const photo = (p.photo || "").trim();
+          const photoHtml = photo
+            ? `<div class="card-media imgwrap"><img loading="lazy" src="${photo}" alt="Available puppy photo" /></div>`
+            : `<div class="card-media placeholder"><span>Puppy photo</span></div>`;
+
+          return `
+            <article class="card">
+              ${photoHtml}
+              <div class="card-body">
+                <h3>${p.litter || "Litter"}</h3>
+                <p class="small muted">DOB: ${p.dob || "TBD"}</p>
+                <p class="small muted">Collar: ${p.collarColor || "TBD"}</p>
+                <p class="small muted">Sex: ${p.sex || "TBD"}</p>
+                <p class="small muted">Coat: ${p.coatColor || "TBD"}</p>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      const galleryRes = await fetch("./data/puppy-photos-bouviers.json", { cache: "no-store" });
+      const galleryData = await galleryRes.json();
+      const gallery = document.getElementById("puppyGalleryBouviers");
+      const galleryItems = (galleryData.current || []);
+
+      if (!galleryItems.length) {
+        gallery.innerHTML = '<p class="muted">No recent puppy photos yet.</p>';
         return;
       }
 
-      statusEl.textContent = "";
-      listEl.hidden = false;
+      el.innerHTML = items.map((p, i) => `
+      gallery.innerHTML = galleryItems.map((p, i) => `
+        <article class="card">
+          <a href="${p.url}" class="lb-item" data-url="${p.url}" data-title="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" aria-label="Open photo ${i + 1}">
+            <div class="card-media imgwrap">
+              <img loading="lazy" src="${p.url}" alt="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" />
+            </div>
+          </a>
+          <div class="card-body">
+            <p class="small muted">${new Date(p.modifiedTime).toLocaleDateString()}</p>
+          </div>
+        </article>
+      `).join("");
 
-      listEl.innerHTML = items.map((p, i) => {
-        const title = p.litter ? `Litter: ${p.litter}` : `Available Puppy ${i + 1}`;
-        return `
-          <article class="puppy-card">
-            <h3>${escapeHtml(title)}</h3>
-            <ul class="puppy-meta">
-              <li><strong>DOB</strong><span>${escapeHtml(field(p.dob))}</span></li>
-              <li><strong>Sex</strong><span>${escapeHtml(field(p.sex))}</span></li>
-              <li><strong>Coat</strong><span>${escapeHtml(field(p.coatColor))}</span></li>
-              <li><strong>Collar</strong><span>${escapeHtml(field(p.collarColor))}</span></li>
-            </ul>
-          </article>
-        `;
-      }).join("");
-    } catch (err) {
-      statusEl.textContent = "Availability could not be loaded right now. Please try again later.";
-      listEl.hidden = true;
-      console.error(err);
-    }
-  })();
-</script>
+      const lightbox = document.getElementById("lightbox");
+      const lbImg = document.getElementById("lightboxImg");
+      const lbTitle = document.getElementById("lightboxTitle");
+      const lbClose = document.getElementById("lightboxClose");
+
+      function openLightbox(url, title) {
+        lbImg.src = url;
+        lbTitle.textContent = title || "";
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lbImg.src = "";
+        document.body.style.overflow = "";
+      }
+
+      el.addEventListener("click", (e) => {
+      gallery.addEventListener("click", (e) => {
+        const a = e.target.closest(".lb-item");
+        if (!a) return;
+        e.preventDefault();
+        openLightbox(a.dataset.url, a.dataset.title);
+      });
+
+      lbClose.addEventListener("click", closeLightbox);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    })();
+  </script>
+</body>
+</html>
