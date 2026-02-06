@@ -1,14 +1,21 @@
 {
   "breed": "lowchen",
-  "generatedAt": "2026-02-05T23:47:34.048Z",
-  "availableCount": 1,
+  "generatedAt": "2026-02-06T15:10:44.422Z",
+  "availableCount": 2,
   "available": [
     {
-      "litter": "Toodles + Stud",
-      "dob": "Tue Jan 23 1945 00:00:00 GMT-0700 (Pacific Standard Time)",
+      "litter": "Alice + Stud",
+      "dob": "2/1/2026",
       "collarColor": "red",
       "sex": "male",
-      "coatColor": "irish pie"
+      "coatColor": "fawn"
+    },
+    {
+      "litter": "Alice + Stud",
+      "dob": "2/1/2026",
+      "collarColor": "blue",
+      "sex": "male",
+      "coatColor": "fawn"
     }
   ]
 }
