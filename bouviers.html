@@ -13,78 +13,69 @@
   <link rel="stylesheet" href="styles.css" />
 
   <style>
-    /* Premium hero mosaic */
-    .hero-mosaic {
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: radial-gradient(1200px 500px at 20% 10%, rgba(255,206,0,0.08), transparent 55%),
-                  linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
-      overflow: hidden;
-      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+    /* Centered premium hero */
+    .hero-inner.centered {
+      display: block;
     }
-    .hero-mosaic-top {
-      padding: 16px 16px 12px;
+    .hero-inner.centered .hero-copy {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero-inner.centered .badges {
+      justify-content: center;
+    }
+    .hero-inner.centered .hero-actions {
+      justify-content: center;
+    }
+    .hero-media {
+      display: none;
+    }
+
+    /* Thin “latest” strip */
+    .latest-strip {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .latest-head {
       display: flex;
       align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .hero-mosaic-title {
-      font-family: "Playfair Display", serif;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      margin: 0;
-      font-size: 18px;
-      color: rgba(255,255,255,0.92);
-    }
-    .hero-mosaic-sub {
-      margin: 4px 0 0;
-      font-size: 13px;
-      color: rgba(255,255,255,0.62);
-    }
-    .hero-mosaic-link {
-      font-size: 13px;
-      color: rgba(255,206,0,0.9);
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    .hero-mosaic-link:hover { text-decoration: underline; }
-
-    .mosaic-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      grid-template-rows: 170px 170px;
+      justify-content: center;
       gap: 10px;
-      padding: 14px;
+      margin-bottom: 12px;
     }
-    .mosaic-item {
-      border-radius: 14px;
+    .latest-head .small {
+      margin: 0;
+    }
+    .latest-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .latest-item {
+      border-radius: 16px;
       overflow: hidden;
-      background: rgba(0,0,0,0.35);
       border: 1px solid rgba(255,255,255,0.08);
-      position: relative;
+      background: rgba(0,0,0,0.35);
+      aspect-ratio: 16 / 10;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+      transform: translateZ(0);
     }
-    .mosaic-item.big { grid-row: 1 / span 2; }
-    .mosaic-item img {
+    .latest-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transform: translateZ(0);
     }
-    .mosaic-fallback {
-      padding: 22px 18px 26px;
-      color: rgba(255,255,255,0.65);
-      font-size: 14px;
-    }
-
-    @media (max-width: 880px) {
-      .mosaic-grid {
+    @media (max-width: 860px) {
+      .latest-grid {
         grid-template-columns: 1fr;
-        grid-template-rows: 190px 190px 190px;
+        max-width: 620px;
       }
-      .mosaic-item.big { grid-row: auto; }
+      .latest-item { aspect-ratio: 16 / 11; }
     }
   </style>
 </head>
@@ -106,7 +97,7 @@
 
   <main>
     <section class="hero">
-      <div class="container hero-inner">
+      <div class="container hero-inner centered">
         <div class="hero-copy">
           <p class="kicker">Bon Idee Collective</p>
           <h1>Bouviers des Flandres</h1>
@@ -125,20 +116,15 @@
             <span class="badge">Working</span>
             <span class="badge">Show</span>
           </div>
-        </div>
 
-        <div class="hero-media">
-          <div class="hero-mosaic" aria-label="Latest from the Bouvier gallery">
-            <div class="hero-mosaic-top">
-              <div>
-                <p class="hero-mosaic-title">Latest from the Gallery</p>
-                <p class="hero-mosaic-sub">Newest photos automatically appear first.</p>
-              </div>
-              <a class="hero-mosaic-link" href="#gallery">View all</a>
+          <div class="latest-strip" aria-label="Latest photos">
+            <div class="latest-head">
+              <p class="small muted">Latest photos</p>
+              <p class="small muted">•</p>
+              <a class="small muted" href="#gallery" style="text-decoration:none;">View all</a>
             </div>
-
-            <div id="bouvierHeroMosaic" class="mosaic-grid">
-              <div class="mosaic-fallback">Loading photos…</div>
+            <div id="bouvierLatest" class="latest-grid">
+              <p class="muted">Loading photos…</p>
             </div>
           </div>
         </div>
@@ -232,7 +218,6 @@
   </script>
 
   <script>
-    // Global JSONP gallery loader
     (function () {
       let cbCounter = 0;
 
@@ -245,7 +230,7 @@
           .replaceAll("'", "&#039;");
       }
 
-      function renderGallery(target, items) {
+      function renderCards(target, items) {
         if (!items || !items.length) {
           target.innerHTML = '<p class="muted">No photos yet.</p>';
           return;
@@ -268,21 +253,11 @@
         }).join("");
       }
 
-      window.loadDriveGallery = function ({ key, targetId, scriptUrl, limit = 60 }) {
-        const target = document.getElementById(targetId);
-        if (!target) return;
-
-        target.innerHTML = '<p class="muted">Loading photos...</p>';
-
-        const cbName = `__bonIdeeGalleryCB_${Date.now()}_${cbCounter++}`;
+      function loadJsonp({ key, scriptUrl, limit, onData }) {
+        const cbName = `__bonIdeeCB_${Date.now()}_${cbCounter++}`;
         window[cbName] = function (data) {
-          try {
-            if (!data || !data.ok) {
-              target.innerHTML = '<p class="muted">Gallery unavailable.</p>';
-              return;
-            }
-            renderGallery(target, data.items || []);
-          } finally {
+          try { onData(data); }
+          finally {
             delete window[cbName];
             script.remove();
           }
@@ -297,79 +272,49 @@
         script.src = url.toString();
         script.async = true;
         script.onerror = () => {
-          target.innerHTML = '<p class="muted">Failed to load photos.</p>';
           delete window[cbName];
           script.remove();
+          onData({ ok: false });
         };
 
-        document.body.appendChild(script);
-      };
-    })();
-  </script>
-
-  <script>
-    // JSONP helper for the hero mosaic (newest 3)
-    (function () {
-      const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec?v=3";
-
-      function loadMosaic() {
-        const target = document.getElementById("bouvierHeroMosaic");
-        if (!target) return;
-
-        const cbName = `__bonIdeeMosaicCB_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-        window[cbName] = function (data) {
-          try {
-            const items = (data && data.ok && data.items) ? data.items : [];
-            const top = items.slice(0, 3);
-
-            if (!top.length) {
-              target.innerHTML = '<div class="mosaic-fallback">No gallery photos yet.</div>';
-              return;
-            }
-
-            target.innerHTML = `
-              <a class="mosaic-item big" href="#gallery" aria-label="View gallery">
-                <img loading="lazy" src="${top[0].thumb}" alt="Latest gallery photo">
-              </a>
-              ${top[1] ? `
-                <a class="mosaic-item" href="#gallery" aria-label="View gallery">
-                  <img loading="lazy" src="${top[1].thumb}" alt="Latest gallery photo">
-                </a>` : ''}
-              ${top[2] ? `
-                <a class="mosaic-item" href="#gallery" aria-label="View gallery">
-                  <img loading="lazy" src="${top[2].thumb}" alt="Latest gallery photo">
-                </a>` : ''}
-            `;
-          } finally {
-            delete window[cbName];
-            script.remove();
-          }
-        };
-
-        const url = new URL(APPS_SCRIPT_WEBAPP_URL);
-        url.searchParams.set("key", "bouviers");
-        url.searchParams.set("limit", "12");
-        url.searchParams.set("callback", cbName);
-
-        const script = document.createElement("script");
-        script.src = url.toString();
-        script.async = true;
-        script.onerror = () => {
-          target.innerHTML = '<div class="mosaic-fallback">Gallery unavailable.</div>';
-          delete window[cbName];
-          script.remove();
-        };
         document.body.appendChild(script);
       }
 
-      loadMosaic();
+      const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec?v=4";
 
-      // Keep the full gallery below
-      loadDriveGallery({
+      // Latest strip (top 3)
+      loadJsonp({
         key: "bouviers",
-        targetId: "bouvierGallery",
-        scriptUrl: "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec?v=3",
-        limit: 60
+        scriptUrl: APPS_SCRIPT_WEBAPP_URL,
+        limit: 12,
+        onData: (data) => {
+          const box = document.getElementById("bouvierLatest");
+          const items = (data && data.ok && data.items) ? data.items.slice(0, 3) : [];
+          if (!items.length) {
+            box.innerHTML = '<p class="muted">No photos yet.</p>';
+            return;
+          }
+          box.innerHTML = items.map(it => `
+            <a class="latest-item" href="#gallery" aria-label="View gallery">
+              <img loading="lazy" src="${it.thumb}" alt="Latest gallery photo">
+            </a>
+          `).join("");
+        }
+      });
+
+      // Full gallery cards
+      loadJsonp({
+        key: "bouviers",
+        scriptUrl: APPS_SCRIPT_WEBAPP_URL,
+        limit: 60,
+        onData: (data) => {
+          const target = document.getElementById("bouvierGallery");
+          if (!data || !data.ok) {
+            target.innerHTML = '<p class="muted">Gallery unavailable.</p>';
+            return;
+          }
+          renderCards(target, data.items || []);
+        }
       });
     })();
   </script>
