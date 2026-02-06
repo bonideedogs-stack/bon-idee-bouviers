@@ -177,11 +177,12 @@
           return;
         }
 
-        // Items arrive newest-first from the feed. This keeps the timeline behavior.
         target.innerHTML = items.map(item => {
           const img = item.thumb || "";
           const href = item.view || "#";
           const alt = escapeHtml(item.name || "Bon Idee photo");
+          const dateStr = item.created ? new Date(item.created).toLocaleDateString() : "";
+
           return `
             <article class="card">
               <a href="${href}" target="_blank" rel="noopener" aria-label="Open photo">
@@ -190,7 +191,7 @@
                 </div>
               </a>
               <div class="card-body">
-                <p class="small muted">${item.created ? new Date(item.created).toLocaleDateString() : ""}</p>
+                <p class="small muted">${dateStr}</p>
               </div>
             </article>
           `;
@@ -200,11 +201,6 @@
       function loadDriveGallery({ key, targetId, scriptUrl, limit = 60 }) {
         const target = document.getElementById(targetId);
         if (!target) return;
-
-        if (!scriptUrl || scriptUrl.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
-          target.innerHTML = '<p class="muted">Gallery feed not connected yet.</p>';
-          return;
-        }
 
         target.innerHTML = '<p class="muted">Loading photos...</p>';
 
@@ -239,8 +235,7 @@
         document.body.appendChild(script);
       }
 
-      // Connect the Bouviers gallery feed here after you deploy Apps Script:
-      const APPS_SCRIPT_WEBAPP_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
+      const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec";
 
       loadDriveGallery({
         key: "bouviers",
