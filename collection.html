@@ -4,13 +4,104 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bon Idee Collection | Bon Idee</title>
-  <meta name="description" content="The Bon Idee Collection highlights Bon Idee dog owners, their dogs, and their accomplishments." />
+  <meta name="description" content="The Bon Idee Collection. Stories, photos, and accomplishments from Bon Idee dogs and their people." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* Per-card photo carousel */
+    .carousel {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0b0b0b;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .carousel-track {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .carousel-track::-webkit-scrollbar { display: none; }
+
+    .carousel-item {
+      flex: 0 0 86%;
+      scroll-snap-align: start;
+    }
+    @media (min-width: 720px) {
+      .carousel-item { flex-basis: 70%; }
+    }
+    @media (min-width: 980px) {
+      .carousel-item { flex-basis: 60%; }
+    }
+
+    .carousel-item .img {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+    }
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: translateZ(0);
+    }
+
+    .carousel-nav {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+    }
+    .carousel-btn {
+      pointer-events: auto;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      border-radius: 999px;
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+    }
+    .carousel-btn:active { transform: scale(0.98); }
+    .carousel-btn[disabled] {
+      opacity: 0.25;
+      cursor: default;
+    }
+
+    /* Keep cards clean when only one image */
+    .single-media {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0b0b0b;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .single-media .imgwrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
@@ -21,9 +112,8 @@
       <nav class="links">
         <a href="bouviers.html">Bouviers</a>
         <a href="lowchen.html">Lowchen</a>
-        <a href="index.html#puppies">Puppies</a>
-        <a href="index.html#health">Health</a>
         <a href="collection.html" aria-current="page">Bon Idee Collection</a>
+        <a href="index.html#contact">Contact</a>
         <a class="btn" href="#submit">Submit a Story</a>
       </nav>
     </div>
@@ -33,84 +123,56 @@
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <p class="kicker">Bon Idee Collection</p>
-          <h1>The Bon Idee Collection</h1>
+          <p class="kicker">The Bon Idee Collection</p>
+          <h1>Our Dogs, Their People, Their Stories</h1>
           <p class="lead">
-            A curated showcase of Bon Idee dogs and the people behind them. Stories, milestones, and accomplishments.
+            A living timeline of Bon Idee dogs, their accomplishments, and the families who love them.
           </p>
 
-          <div class="hero-actions">
-            <a class="btn" href="#spotlights">Featured Spotlights</a>
-            <a class="btn ghost" href="#posts">Newest Posts</a>
-            <a class="btn ghost" href="#submit">Submit a Story</a>
+          <div class="hero-actions" id="submit">
+            <a class="btn" id="submitBtn" href="#" target="_blank" rel="noopener noreferrer">Submit a Story</a>
+            <a class="btn ghost" href="#posts">View the Timeline</a>
           </div>
 
-          <div class="badges">
-            <span class="badge">Owners</span>
-            <span class="badge">Dogs</span>
-            <span class="badge">Stories</span>
-          </div>
+          <p class="small muted" style="margin-top:10px;">
+            Submissions are reviewed before publishing.
+          </p>
         </div>
 
         <div class="hero-media">
           <div class="media placeholder" style="background-image:url('./images/collection-hero.jpg'); background-size:cover; background-position:center;">
-            <span>Drop a hero photo at<br><strong>/images/collection-hero.jpg</strong></span>
+            <span>Optional hero image at<br><strong>/images/collection-hero.jpg</strong></span>
           </div>
           <div class="media-caption">
-            <p class="small muted">Collection page hero image.</p>
+            <p class="small muted">
+              Bon Idee Collection.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="spotlights">
+    <section class="section" id="posts">
       <div class="container">
         <div class="section-head">
-          <h2>Featured Spotlights</h2>
-          <p class="muted">Approved highlights from the Bon Idee community.</p>
+          <h2>Timeline</h2>
+          <p class="muted">Newest stories appear first.</p>
         </div>
 
-        <div id="featuredSpotlights" class="grid"></div>
+        <div id="collectionStatus" class="panel" style="display:none;"></div>
+        <div id="collectionGrid" class="grid"></div>
       </div>
     </section>
 
-    <section class="section alt" id="posts">
-      <div class="container">
-        <div class="section-head">
-          <h2>Newest Posts</h2>
-          <p class="muted">Latest approved submissions appear first.</p>
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+      <div class="lightbox-inner" role="dialog" aria-modal="true">
+        <div class="lightbox-top">
+          <div id="lightboxTitle" class="lightbox-title"></div>
+          <button id="lightboxClose" class="lightbox-close" type="button">Close</button>
         </div>
-
-        <div id="collectionPosts" class="grid"></div>
+        <img id="lightboxImg" alt="Bon Idee photo" />
       </div>
-    </section>
-
-    <section class="section" id="submit">
-      <div class="container">
-        <div class="section-head">
-          <h2>Submit a Story</h2>
-          <p class="muted">
-            Share photos of your Bon Idee dog and a short testimony. Submissions are reviewed before publishing.
-          </p>
-        </div>
-
-        <div class="panel">
-          <h3>Send your submission</h3>
-          <p class="small muted">
-            Include 1 to 3 photos and a short story. We will review, approve, and feature it here.
-          </p>
-
-          <div class="hero-actions" style="margin-top: 14px;">
-            <a class="btn" href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener">Submit Photos and Story</a>
-            <a class="btn ghost" href="index.html#contact">Contact</a>
-          </div>
-
-          <p class="small muted" style="margin-top: 12px;">
-            By submitting, you confirm you have permission to share these photos and allow Bon Idee to feature them on this site.
-          </p>
-        </div>
-      </div>
-    </section>
+    </div>
 
     <footer class="footer">
       <div class="container footer-inner">
@@ -122,142 +184,242 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
 
-  <script>
-    (function () {
-      let cbCounter = 0;
+    // Paste your Google Form link here
+    const SUBMIT_FORM_URL = "PASTE_YOUR_GOOGLE_FORM_LINK_HERE";
 
-      function escapeHtml(s) {
-        return String(s || "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
-      }
+    // Apps Script JSONP endpoint
+    const FEED_BASE = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec";
 
-      function truncate(s, n) {
-        const t = String(s || "").trim();
-        if (t.length <= n) return t;
-        return t.slice(0, n).trim() + "...";
-      }
+    document.getElementById("submitBtn").href = SUBMIT_FORM_URL;
 
-      function renderEmpty(target, msg) {
-        target.innerHTML = `<div class="panel"><p class="small muted">${escapeHtml(msg)}</p></div>`;
-      }
+    function esc(s) {
+      return String(s || "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[c]));
+    }
 
-      window.loadBonIdeeCollection = function ({ targetFeaturedId, targetPostsId, scriptUrl, limit = 50 }) {
-        const featuredEl = document.getElementById(targetFeaturedId);
-        const postsEl = document.getElementById(targetPostsId);
-        if (!featuredEl || !postsEl) return;
+    function prettyDate(iso) {
+      if (!iso) return "";
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return "";
+      return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
+    }
 
-        featuredEl.innerHTML = '<p class="muted">Loading...</p>';
-        postsEl.innerHTML = '<p class="muted">Loading...</p>';
+    function showStatus(html) {
+      const el = document.getElementById("collectionStatus");
+      el.style.display = "block";
+      el.innerHTML = html;
+    }
 
-        const cbName = `__bonIdeeCollectionCB_${Date.now()}_${cbCounter++}`;
-        window[cbName] = function (data) {
-          try {
-            if (!data || !data.ok) {
-              renderEmpty(featuredEl, "No featured posts yet.");
-              renderEmpty(postsEl, "No posts yet.");
-              return;
-            }
+    function hideStatus() {
+      const el = document.getElementById("collectionStatus");
+      el.style.display = "none";
+      el.innerHTML = "";
+    }
 
-            const items = Array.isArray(data.items) ? data.items : [];
-
-            const featured = items.filter(x => x.featured).slice(0, 6);
-            const posts = items;
-
-            if (!featured.length) renderEmpty(featuredEl, "No featured posts yet.");
-            else featuredEl.innerHTML = featured.map(renderSpotlightCard).join("");
-
-            if (!posts.length) renderEmpty(postsEl, "No posts yet.");
-            else postsEl.innerHTML = posts.map(renderPostCard).join("");
-          } finally {
-            delete window[cbName];
-            script.remove();
-          }
+    function loadJsonp(url) {
+      return new Promise((resolve, reject) => {
+        const cb = "cb_" + Math.random().toString(36).slice(2);
+        window[cb] = (data) => {
+          cleanup();
+          resolve(data);
         };
 
-        const url = new URL(scriptUrl);
-        url.searchParams.set("key", "collection");
-        url.searchParams.set("limit", String(limit));
-        url.searchParams.set("callback", cbName);
+        function cleanup() {
+          try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+          script.remove();
+        }
 
         const script = document.createElement("script");
-        script.src = url.toString();
-        script.async = true;
+        script.src = url.replace("callback=cbTest", "callback=" + cb);
         script.onerror = () => {
-          renderEmpty(featuredEl, "Failed to load featured posts.");
-          renderEmpty(postsEl, "Failed to load posts.");
-          delete window[cbName];
-          script.remove();
+          cleanup();
+          reject(new Error("Failed to load JSONP."));
         };
+        document.head.appendChild(script);
+      });
+    }
 
-        document.body.appendChild(script);
-      };
+    function scrollCarousel(track, dir) {
+      const card = track.querySelector(".carousel-item");
+      const step = card ? (card.getBoundingClientRect().width + 10) : 320;
+      track.scrollBy({ left: dir * step, behavior: "smooth" });
+    }
 
-      function renderSpotlightCard(p) {
-        const cover = p.cover && p.cover.thumb ? p.cover.thumb : "";
-        const coverView = p.cover && p.cover.view ? p.cover.view : "#";
-        const title = `${escapeHtml(p.owner)}${p.dog ? " + " + escapeHtml(p.dog) : ""}`;
-        const meta = [p.breed, p.timestamp ? new Date(p.timestamp).toLocaleDateString() : ""].filter(Boolean).join(" • ");
-        const story = truncate(p.story || "", 140);
+    function renderMedia(p, idx) {
+      const photos = Array.isArray(p.photos) ? p.photos : [];
+      const dog = esc(p.dog || "Bon Idee Dog");
 
-        const media = cover
-          ? `<a href="${coverView}" target="_blank" rel="noopener"><div class="card-media imgwrap"><img loading="lazy" src="${cover}" alt="Spotlight photo" /></div></a>`
-          : `<div class="card-media placeholder"><span>Spotlight photo</span></div>`;
-
+      if (photos.length <= 1) {
+        const cover = (p.cover && p.cover.thumb) ? p.cover.thumb : "";
+        if (!cover) {
+          return `<div class="card-media placeholder"><span>Photo pending</span></div>`;
+        }
+        const view = (p.cover && p.cover.view) ? p.cover.view : cover;
         return `
-          <article class="card">
-            ${media}
-            <div class="card-body">
-              <h3>${title || "Spotlight"}</h3>
-              <p class="small muted">${escapeHtml(meta)}</p>
-              <p class="small muted">${escapeHtml(story)}</p>
-            </div>
-          </article>
+          <div class="single-media">
+            <a href="${esc(view)}" class="lb-item" data-url="${esc(cover)}" data-title="${dog}">
+              <div class="card-media imgwrap">
+                <img loading="lazy" src="${esc(cover)}" alt="${dog}" />
+              </div>
+            </a>
+          </div>
         `;
       }
 
-      function renderPostCard(p) {
-        const cover = p.cover && p.cover.thumb ? p.cover.thumb : "";
-        const coverView = p.cover && p.cover.view ? p.cover.view : "#";
-        const title = `${escapeHtml(p.dog || "Bon Idee Dog")}`;
-        const metaLeft = escapeHtml(p.owner || "");
-        const metaRight = p.timestamp ? new Date(p.timestamp).toLocaleDateString() : "";
-        const meta = [metaLeft, escapeHtml(p.breed || ""), metaRight].filter(Boolean).join(" • ");
-
-        const story = truncate(p.story || "", 260);
-
-        const media = cover
-          ? `<a href="${coverView}" target="_blank" rel="noopener"><div class="card-media imgwrap"><img loading="lazy" src="${cover}" alt="Post photo" /></div></a>`
-          : `<div class="card-media placeholder"><span>Photo</span></div>`;
-
+      // Multi-photo carousel
+      const itemsHtml = photos.map((ph, i) => {
+        const thumb = ph.thumb || "";
+        const view = ph.view || thumb;
+        if (!thumb) return "";
         return `
-          <article class="card">
-            ${media}
-            <div class="card-body">
-              <h3>${title}</h3>
-              <p class="small muted">${meta}</p>
-              <p class="small muted">${escapeHtml(story)}</p>
-            </div>
-          </article>
+          <div class="carousel-item">
+            <a href="${esc(view)}" class="lb-item" data-url="${esc(thumb)}" data-title="${dog} (${i + 1}/${photos.length})">
+              <div class="img">
+                <img loading="lazy" src="${esc(thumb)}" alt="${dog} photo ${i + 1}" />
+              </div>
+            </a>
+          </div>
         `;
+      }).join("");
+
+      return `
+        <div class="carousel" data-carousel="1">
+          <div class="carousel-track" data-track="1" aria-label="Photo carousel for ${dog}">
+            ${itemsHtml}
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn" type="button" data-prev="1" aria-label="Previous photos">‹</button>
+            <button class="carousel-btn" type="button" data-next="1" aria-label="Next photos">›</button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function renderCollection() {
+      const grid = document.getElementById("collectionGrid");
+      grid.innerHTML = "";
+      showStatus("<h3>Loading...</h3><p class='small muted'>Fetching latest posts.</p>");
+
+      try {
+        const url = `${FEED_BASE}?key=collection&limit=120&callback=cbTest`;
+        const data = await loadJsonp(url);
+
+        if (!data || !data.ok) {
+          showStatus(`<h3>Collection unavailable</h3><p class="small muted">${esc((data && data.error) || "Unknown error.")}</p>`);
+          return;
+        }
+
+        const items = (data.items || []);
+        if (!items.length) {
+          showStatus(`
+            <h3>No stories published yet</h3>
+            <p class="small muted">Submissions are reviewed before publishing. Be the first to submit a story.</p>
+            <a class="btn" href="${esc(SUBMIT_FORM_URL)}" target="_blank" rel="noopener noreferrer">Submit a Story</a>
+          `);
+          return;
+        }
+
+        hideStatus();
+
+        grid.innerHTML = items.map((p, idx) => {
+          const dog = esc(p.dog || "Bon Idee Dog");
+          const owner = esc(p.owner || "");
+          const breed = esc(p.breed || "");
+          const story = esc(p.story || "");
+          const when = prettyDate(p.timestamp);
+
+          const metaParts = [];
+          if (owner) metaParts.push(`Owner: ${owner}`);
+          if (breed) metaParts.push(breed);
+          const meta = metaParts.join(" · ");
+
+          return `
+            <article class="card">
+              ${renderMedia(p, idx)}
+              <div class="card-body">
+                <h3>${dog}</h3>
+                ${meta ? `<p class="small muted">${esc(meta)}</p>` : ""}
+                ${when ? `<p class="small muted">${esc(when)}</p>` : ""}
+                ${story ? `<p style="margin-top:10px;">${story}</p>` : ""}
+              </div>
+            </article>
+          `;
+        }).join("");
+
+        hookCarousels();
+        hookLightbox();
+      } catch (e) {
+        showStatus(`<h3>Collection unavailable</h3><p class="small muted">${esc(e.message || e)}</p>`);
       }
-    })();
-  </script>
+    }
 
-  <script>
-    const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec?v=3";
+    function hookCarousels() {
+      document.querySelectorAll(".carousel").forEach(carousel => {
+        const track = carousel.querySelector(".carousel-track");
+        const prev = carousel.querySelector("[data-prev]");
+        const next = carousel.querySelector("[data-next]");
+        if (!track || !prev || !next) return;
 
-    loadBonIdeeCollection({
-      targetFeaturedId: "featuredSpotlights",
-      targetPostsId: "collectionPosts",
-      scriptUrl: APPS_SCRIPT_WEBAPP_URL,
-      limit: 80
-    });
+        prev.addEventListener("click", () => scrollCarousel(track, -1));
+        next.addEventListener("click", () => scrollCarousel(track, 1));
+
+        // Optional: shift+mousewheel scrolls horizontally on desktops
+        track.addEventListener("wheel", (e) => {
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+          if (!e.shiftKey) return;
+          e.preventDefault();
+          track.scrollLeft += e.deltaY;
+        }, { passive: false });
+      });
+    }
+
+    function hookLightbox() {
+      const lightbox = document.getElementById("lightbox");
+      const lbImg = document.getElementById("lightboxImg");
+      const lbTitle = document.getElementById("lightboxTitle");
+      const lbClose = document.getElementById("lightboxClose");
+      const grid = document.getElementById("collectionGrid");
+
+      function openLightbox(url, title) {
+        lbImg.src = url;
+        lbTitle.textContent = title || "";
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lbImg.src = "";
+        document.body.style.overflow = "";
+      }
+
+      grid.addEventListener("click", (e) => {
+        const a = e.target.closest(".lb-item");
+        if (!a) return;
+        e.preventDefault();
+        openLightbox(a.dataset.url, a.dataset.title);
+      });
+
+      lbClose.addEventListener("click", closeLightbox);
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    }
+
+    renderCollection();
   </script>
 </body>
 </html>
