@@ -21,8 +21,9 @@
       <nav class="links">
         <a href="bouviers.html">Bouviers</a>
         <a href="lowchen.html" aria-current="page">Lowchen</a>
-        <a href="index.html#collection">Bon Idee Collection</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="index.html#puppies">Puppies</a>
+        <a href="index.html#health">Health</a>
+        <a href="collection.html">Bon Idee Collection</a>
         <a class="btn" href="index.html#contact">Inquire</a>
       </nav>
     </div>
@@ -41,6 +42,7 @@
           <div class="hero-actions">
             <a class="btn" href="#dogs">Meet Our Lowchen</a>
             <a class="btn ghost" href="#application">Puppy Application</a>
+            <a class="btn ghost" href="#gallery">Gallery</a>
           </div>
 
           <div class="badges">
@@ -55,9 +57,7 @@
             <span>Drop a hero photo at<br><strong>/images/lowchen-hero.jpg</strong></span>
           </div>
           <div class="media-caption">
-            <p class="small muted">
-              Lowchen page hero image.
-            </p>
+            <p class="small muted">Lowchen page hero image.</p>
           </div>
         </div>
       </div>
@@ -98,14 +98,17 @@
       </div>
     </section>
 
-    <section class="section" id="available">
+    <section class="section alt" id="puppies">
       <div class="container">
         <div class="section-head">
-          <h2>Currently Available</h2>
-          <p class="muted">Availability updates automatically.</p>
+          <h2>Lowchen Puppies</h2>
+          <p class="muted">For plans, process, and placement details, see Puppies on the main page.</p>
         </div>
 
-        <div id="availableLowchen" class="grid"></div>
+        <div class="hero-actions">
+          <a class="btn" href="index.html#puppies">Go to Puppies</a>
+          <a class="btn ghost" href="index.html#contact">Inquire</a>
+        </div>
       </div>
     </section>
 
@@ -115,31 +118,28 @@
           <h2>Lowchen Puppy Application</h2>
           <p class="muted">Ready to apply? Fill out our puppy form to help us match you with the right fit. No obligation.</p>
         </div>
-        <a class="btn" href="index.html#contact">Apply</a>
-        <p class="small muted">We will review your submission and reach out if we see a strong fit for an upcoming litter.</p>
+
+        <div class="panel">
+          <h3>Apply</h3>
+          <p class="small muted">
+            Tell us about your home, lifestyle, and what you are looking for in a Lowchen.
+            We will review your submission and reach out if we see a strong fit for an upcoming litter.
+          </p>
+          <a class="btn" href="index.html#contact">Start Application</a>
+        </div>
       </div>
     </section>
 
-    <section class="section alt" id="puppy-window">
+    <section class="section" id="gallery">
       <div class="container">
         <div class="section-head">
-          <h2>Puppy Window</h2>
-          <p class="muted">All puppy photos from the last 90 days. Click any image to view full size.</p>
+          <h2>Lowchen Gallery</h2>
+          <p class="muted">A running timeline of our Lowchen.</p>
         </div>
 
-        <div id="puppyGalleryLowchen" class="grid"></div>
+        <div id="lowchenGallery" class="grid"></div>
       </div>
     </section>
-
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-      <div class="lightbox-inner" role="dialog" aria-modal="true">
-        <div class="lightbox-top">
-          <div id="lightboxTitle" class="lightbox-title"></div>
-          <button id="lightboxClose" class="lightbox-close" type="button">Close</button>
-        </div>
-        <img id="lightboxImg" alt="Puppy photo" />
-      </div>
-    </div>
 
     <footer class="footer">
       <div class="container footer-inner">
@@ -154,101 +154,90 @@
   </script>
 
   <script>
-    (async () => {
-      const availRes = await fetch("./data/available-lowchen.json", { cache: "no-store" });
-      const avail = await availRes.json();
+    // JSONP gallery loader (GitHub Pages safe)
+    (function () {
+      let cbCounter = 0;
 
-      const el = document.getElementById("availableLowchen");
-      const items = (avail.available || []);
+      function escapeHtml(s) {
+        return String(s)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
 
-      if (!items.length) {
-        el.innerHTML = `
-          <div class="panel">
-            <h3>No puppies currently available</h3>
-            <p class="small muted">If you would like to be considered for a future litter, please submit an application. No obligation.</p>
-            <a class="btn" href="#application">Apply</a>
-          </div>
-        `;
-      } else {
-        el.innerHTML = items.map((p) => {
-          const photo = (p.photo || "").trim();
-          const photoHtml = photo
-            ? `<div class="card-media imgwrap"><img loading="lazy" src="${photo}" alt="Available puppy photo" /></div>`
-            : `<div class="card-media placeholder"><span>Puppy photo</span></div>`;
+      function renderGallery(target, items) {
+        if (!items || !items.length) {
+          target.innerHTML = '<p class="muted">No photos yet.</p>';
+          return;
+        }
+
+        target.innerHTML = items.map(item => {
+          const img = item.thumb || "";
+          const href = item.view || "#";
+          const alt = escapeHtml(item.name || "Bon Idee photo");
+          const dateStr = item.created ? new Date(item.created).toLocaleDateString() : "";
 
           return `
             <article class="card">
-              ${photoHtml}
+              <a href="${href}" target="_blank" rel="noopener" aria-label="Open photo">
+                <div class="card-media imgwrap">
+                  <img loading="lazy" src="${img}" alt="${alt}" />
+                </div>
+              </a>
               <div class="card-body">
-                <h3>${p.litter || "Litter"}</h3>
-                <p class="small muted">DOB: ${p.dob || "TBD"}</p>
-                <p class="small muted">Collar: ${p.collarColor || "TBD"}</p>
-                <p class="small muted">Sex: ${p.sex || "TBD"}</p>
-                <p class="small muted">Coat: ${p.coatColor || "TBD"}</p>
+                <p class="small muted">${dateStr}</p>
               </div>
             </article>
           `;
         }).join("");
       }
 
-      const galleryRes = await fetch("./data/puppy-photos-lowchen.json", { cache: "no-store" });
-      const galleryData = await galleryRes.json();
-      const gallery = document.getElementById("puppyGalleryLowchen");
-      const galleryItems = (galleryData.current || []);
+      function loadDriveGallery({ key, targetId, scriptUrl, limit = 60 }) {
+        const target = document.getElementById(targetId);
+        if (!target) return;
 
-      if (!galleryItems.length) {
-        gallery.innerHTML = '<p class="muted">No recent puppy photos yet.</p>';
-        return;
+        target.innerHTML = '<p class="muted">Loading photos...</p>';
+
+        const cbName = `__bonIdeeGalleryCB_${Date.now()}_${cbCounter++}`;
+        window[cbName] = function (data) {
+          try {
+            if (!data || !data.ok) {
+              target.innerHTML = '<p class="muted">Gallery unavailable.</p>';
+              return;
+            }
+            renderGallery(target, data.items || []);
+          } finally {
+            delete window[cbName];
+            script.remove();
+          }
+        };
+
+        const url = new URL(scriptUrl);
+        url.searchParams.set("key", key);
+        url.searchParams.set("limit", String(limit));
+        url.searchParams.set("callback", cbName);
+
+        const script = document.createElement("script");
+        script.src = url.toString();
+        script.async = true;
+        script.onerror = () => {
+          target.innerHTML = '<p class="muted">Failed to load photos.</p>';
+          delete window[cbName];
+          script.remove();
+        };
+
+        document.body.appendChild(script);
       }
 
-      gallery.innerHTML = galleryItems.map((p, i) => `
-        <article class="card">
-          <a href="${p.url}" class="lb-item" data-url="${p.url}" data-title="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" aria-label="Open photo ${i + 1}">
-            <div class="card-media imgwrap">
-              <img loading="lazy" src="${p.url}" alt="${(p.driveName || "Puppy photo").replace(/"/g, "&quot;")}" />
-            </div>
-          </a>
-          <div class="card-body">
-            <p class="small muted">${new Date(p.modifiedTime).toLocaleDateString()}</p>
-          </div>
-        </article>
-      `).join("");
+      const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec";
 
-      const lightbox = document.getElementById("lightbox");
-      const lbImg = document.getElementById("lightboxImg");
-      const lbTitle = document.getElementById("lightboxTitle");
-      const lbClose = document.getElementById("lightboxClose");
-
-      function openLightbox(url, title) {
-        lbImg.src = url;
-        lbTitle.textContent = title || "";
-        lightbox.classList.add("open");
-        lightbox.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeLightbox() {
-        lightbox.classList.remove("open");
-        lightbox.setAttribute("aria-hidden", "true");
-        lbImg.src = "";
-        document.body.style.overflow = "";
-      }
-
-      gallery.addEventListener("click", (e) => {
-        const a = e.target.closest(".lb-item");
-        if (!a) return;
-        e.preventDefault();
-        openLightbox(a.dataset.url, a.dataset.title);
-      });
-
-      lbClose.addEventListener("click", closeLightbox);
-
-      lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeLightbox();
+      loadDriveGallery({
+        key: "lowchen",
+        targetId: "lowchenGallery",
+        scriptUrl: APPS_SCRIPT_WEBAPP_URL,
+        limit: 60
       });
     })();
   </script>
