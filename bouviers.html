@@ -11,28 +11,104 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* Premium hero mosaic */
+    .hero-mosaic {
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: radial-gradient(1200px 500px at 20% 10%, rgba(255,206,0,0.08), transparent 55%),
+                  linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
+      overflow: hidden;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+    }
+    .hero-mosaic-top {
+      padding: 16px 16px 12px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-mosaic-title {
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      margin: 0;
+      font-size: 18px;
+      color: rgba(255,255,255,0.92);
+    }
+    .hero-mosaic-sub {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: rgba(255,255,255,0.62);
+    }
+    .hero-mosaic-link {
+      font-size: 13px;
+      color: rgba(255,206,0,0.9);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .hero-mosaic-link:hover { text-decoration: underline; }
+
+    .mosaic-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-rows: 170px 170px;
+      gap: 10px;
+      padding: 14px;
+    }
+    .mosaic-item {
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .mosaic-item.big { grid-row: 1 / span 2; }
+    .mosaic-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: translateZ(0);
+    }
+    .mosaic-fallback {
+      padding: 22px 18px 26px;
+      color: rgba(255,255,255,0.65);
+      font-size: 14px;
+    }
+
+    @media (max-width: 880px) {
+      .mosaic-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 190px 190px 190px;
+      }
+      .mosaic-item.big { grid-row: auto; }
+    }
+  </style>
 </head>
 
 <body>
-<header class="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="index.html">Bon Idee</a>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">Bon Idee</a>
 
-    <nav class="links">
-      <a href="index.html">Home</a>
-      <a href="bouviers.html" aria-current="page">Bouviers</a>
-      <a href="lowchen.html">Lowchen</a>
-      <a href="collection.html">Bon Idee Collective</a>
-      <a class="btn" href="index.html#contact">Inquire</a>
-    </nav>
-  </div>
-</header>
+      <nav class="links">
+        <a href="index.html">Home</a>
+        <a href="bouviers.html" aria-current="page">Bouviers</a>
+        <a href="lowchen.html">Lowchen</a>
+        <a href="collection.html">Bon Idee Collective</a>
+        <a class="btn" href="index.html#contact">Inquire</a>
+      </nav>
+    </div>
+  </header>
 
   <main>
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <p class="kicker">Bon Idee Collection</p>
+          <p class="kicker">Bon Idee Collective</p>
           <h1>Bouviers des Flandres</h1>
           <p class="lead">
             Confident, capable dogs with an emphasis on structure, temperament, and health.
@@ -52,11 +128,18 @@
         </div>
 
         <div class="hero-media">
-          <div class="media placeholder" style="background-image:url('./images/bouviers-hero.jpg'); background-size:cover; background-position:center;">
-            <span>Drop a hero photo at<br><strong>/images/bouviers-hero.jpg</strong></span>
-          </div>
-          <div class="media-caption">
-            <p class="small muted">Bouviers page hero image.</p>
+          <div class="hero-mosaic" aria-label="Latest from the Bouvier gallery">
+            <div class="hero-mosaic-top">
+              <div>
+                <p class="hero-mosaic-title">Latest from the Gallery</p>
+                <p class="hero-mosaic-sub">Newest photos automatically appear first.</p>
+              </div>
+              <a class="hero-mosaic-link" href="#gallery">View all</a>
+            </div>
+
+            <div id="bouvierHeroMosaic" class="mosaic-grid">
+              <div class="mosaic-fallback">Loading photos…</div>
+            </div>
           </div>
         </div>
       </div>
@@ -87,14 +170,6 @@
             <div class="card-body">
               <h3>Vanna</h3>
               <p class="small muted">Add titles and a short line</p>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-media placeholder"><span>Dog photo</span></div>
-            <div class="card-body">
-              <h3>Dog Name</h3>
-              <p class="small muted">Call name • Titles • Short note</p>
             </div>
           </article>
         </div>
@@ -157,7 +232,7 @@
   </script>
 
   <script>
-    // Global JSONP gallery loader (so you can test typeof loadDriveGallery)
+    // Global JSONP gallery loader
     (function () {
       let cbCounter = 0;
 
@@ -180,7 +255,6 @@
           const img = item.thumb || "";
           const href = item.view || "#";
           const alt = escapeHtml(item.name || "Bon Idee photo");
-          const dateStr = item.created ? new Date(item.created).toLocaleDateString() : "";
 
           return `
             <article class="card">
@@ -189,9 +263,6 @@
                   <img loading="lazy" src="${img}" alt="${alt}" />
                 </div>
               </a>
-              <div class="card-body">
-                <p class="small muted">${dateStr}</p>
-              </div>
             </article>
           `;
         }).join("");
@@ -237,15 +308,70 @@
   </script>
 
   <script>
-    // Cache-bust param helps ensure the browser fetches the latest script response
-    const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec?v=2";
+    // JSONP helper for the hero mosaic (newest 3)
+    (function () {
+      const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec?v=3";
 
-    loadDriveGallery({
-      key: "bouviers",
-      targetId: "bouvierGallery",
-      scriptUrl: APPS_SCRIPT_WEBAPP_URL,
-      limit: 60
-    });
+      function loadMosaic() {
+        const target = document.getElementById("bouvierHeroMosaic");
+        if (!target) return;
+
+        const cbName = `__bonIdeeMosaicCB_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        window[cbName] = function (data) {
+          try {
+            const items = (data && data.ok && data.items) ? data.items : [];
+            const top = items.slice(0, 3);
+
+            if (!top.length) {
+              target.innerHTML = '<div class="mosaic-fallback">No gallery photos yet.</div>';
+              return;
+            }
+
+            target.innerHTML = `
+              <a class="mosaic-item big" href="#gallery" aria-label="View gallery">
+                <img loading="lazy" src="${top[0].thumb}" alt="Latest gallery photo">
+              </a>
+              ${top[1] ? `
+                <a class="mosaic-item" href="#gallery" aria-label="View gallery">
+                  <img loading="lazy" src="${top[1].thumb}" alt="Latest gallery photo">
+                </a>` : ''}
+              ${top[2] ? `
+                <a class="mosaic-item" href="#gallery" aria-label="View gallery">
+                  <img loading="lazy" src="${top[2].thumb}" alt="Latest gallery photo">
+                </a>` : ''}
+            `;
+          } finally {
+            delete window[cbName];
+            script.remove();
+          }
+        };
+
+        const url = new URL(APPS_SCRIPT_WEBAPP_URL);
+        url.searchParams.set("key", "bouviers");
+        url.searchParams.set("limit", "12");
+        url.searchParams.set("callback", cbName);
+
+        const script = document.createElement("script");
+        script.src = url.toString();
+        script.async = true;
+        script.onerror = () => {
+          target.innerHTML = '<div class="mosaic-fallback">Gallery unavailable.</div>';
+          delete window[cbName];
+          script.remove();
+        };
+        document.body.appendChild(script);
+      }
+
+      loadMosaic();
+
+      // Keep the full gallery below
+      loadDriveGallery({
+        key: "bouviers",
+        targetId: "bouvierGallery",
+        scriptUrl: "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec?v=3",
+        limit: 60
+      });
+    })();
   </script>
 </body>
 </html>
