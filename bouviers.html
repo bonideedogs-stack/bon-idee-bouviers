@@ -158,7 +158,7 @@
   </script>
 
   <script>
-    // JSONP gallery loader (GitHub Pages safe)
+    // Global JSONP gallery loader (so you can test typeof loadDriveGallery)
     (function () {
       let cbCounter = 0;
 
@@ -198,7 +198,7 @@
         }).join("");
       }
 
-      function loadDriveGallery({ key, targetId, scriptUrl, limit = 60 }) {
+      window.loadDriveGallery = function ({ key, targetId, scriptUrl, limit = 60 }) {
         const target = document.getElementById(targetId);
         if (!target) return;
 
@@ -233,17 +233,20 @@
         };
 
         document.body.appendChild(script);
-      }
-
-      const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec";
-
-      loadDriveGallery({
-        key: "bouviers",
-        targetId: "bouvierGallery",
-        scriptUrl: APPS_SCRIPT_WEBAPP_URL,
-        limit: 60
-      });
+      };
     })();
+  </script>
+
+  <script>
+    // Cache-bust param helps ensure the browser fetches the latest script response
+    const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzLj1H04WNOujMAeQWp6yG6Ne7ks_IY3ddE0SUwAabwsnFvWT1v_IbVuq08-FVIKIUfkQ/exec?v=2";
+
+    loadDriveGallery({
+      key: "bouviers",
+      targetId: "bouvierGallery",
+      scriptUrl: APPS_SCRIPT_WEBAPP_URL,
+      limit: 60
+    });
   </script>
 </body>
 </html>
