@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bon Idee Collection | Bon Idee</title>
-  <meta name="description" content="The Bon Idee Collection. Stories, photos, and accomplishments from Bon Idee dogs and their people." />
+  <title>Bon Idee Collective | Bon Idee</title>
+  <meta name="description" content="The Bon Idee Collective. Stories, photos, and accomplishments from Bon Idee dogs and their people." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,7 +112,7 @@
       <nav class="links">
         <a href="bouviers.html">Bouviers</a>
         <a href="lowchen.html">Lowchen</a>
-        <a href="collection.html" aria-current="page">Bon Idee Collection</a>
+        <a href="collection.html" aria-current="page">Bon Idee Collective</a>
         <a href="index.html#contact">Contact</a>
         <a class="btn" href="#submit">Submit a Story</a>
       </nav>
@@ -123,7 +123,7 @@
     <section class="hero">
       <div class="container hero-inner">
         <div class="hero-copy">
-          <p class="kicker">The Bon Idee Collection</p>
+          <p class="kicker">The Bon Idee Collective</p>
           <h1>Our Dogs, Their People, Their Stories</h1>
           <p class="lead">
             A living timeline of Bon Idee dogs, their accomplishments, and the families who love them.
@@ -140,12 +140,12 @@
         </div>
 
         <div class="hero-media">
-          <div class="media placeholder" style="background-image:url('./images/collection-hero.jpg'); background-size:cover; background-position:center;">
-            <span>Optional hero image at<br><strong>/images/collection-hero.jpg</strong></span>
+          <div class="media placeholder" style="background-image:url('./images/collective-hero.jpg'); background-size:cover; background-position:center;">
+            <span>Optional hero image at<br><strong>/images/collective-hero.jpg</strong></span>
           </div>
           <div class="media-caption">
             <p class="small muted">
-              Bon Idee Collection.
+              Bon Idee Collective.
             </p>
           </div>
         </div>
@@ -159,8 +159,8 @@
           <p class="muted">Newest stories appear first.</p>
         </div>
 
-        <div id="collectionStatus" class="panel" style="display:none;"></div>
-        <div id="collectionGrid" class="grid"></div>
+        <div id="collectiveStatus" class="panel" style="display:none;"></div>
+        <div id="collectiveGrid" class="grid"></div>
       </div>
     </section>
 
@@ -203,21 +203,14 @@
       }[c]));
     }
 
-    function prettyDate(iso) {
-      if (!iso) return "";
-      const d = new Date(iso);
-      if (isNaN(d.getTime())) return "";
-      return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
-    }
-
     function showStatus(html) {
-      const el = document.getElementById("collectionStatus");
+      const el = document.getElementById("collectiveStatus");
       el.style.display = "block";
       el.innerHTML = html;
     }
 
     function hideStatus() {
-      const el = document.getElementById("collectionStatus");
+      const el = document.getElementById("collectiveStatus");
       el.style.display = "none";
       el.innerHTML = "";
     }
@@ -251,7 +244,7 @@
       track.scrollBy({ left: dir * step, behavior: "smooth" });
     }
 
-    function renderMedia(p, idx) {
+    function renderMedia(p) {
       const photos = Array.isArray(p.photos) ? p.photos : [];
       const dog = esc(p.dog || "Bon Idee Dog");
 
@@ -272,7 +265,6 @@
         `;
       }
 
-      // Multi-photo carousel
       const itemsHtml = photos.map((ph, i) => {
         const thumb = ph.thumb || "";
         const view = ph.view || thumb;
@@ -301,8 +293,8 @@
       `;
     }
 
-    async function renderCollection() {
-      const grid = document.getElementById("collectionGrid");
+    async function renderCollective() {
+      const grid = document.getElementById("collectiveGrid");
       grid.innerHTML = "";
       showStatus("<h3>Loading...</h3><p class='small muted'>Fetching latest posts.</p>");
 
@@ -311,7 +303,7 @@
         const data = await loadJsonp(url);
 
         if (!data || !data.ok) {
-          showStatus(`<h3>Collection unavailable</h3><p class="small muted">${esc((data && data.error) || "Unknown error.")}</p>`);
+          showStatus(`<h3>Collective unavailable</h3><p class="small muted">${esc((data && data.error) || "Unknown error.")}</p>`);
           return;
         }
 
@@ -327,12 +319,11 @@
 
         hideStatus();
 
-        grid.innerHTML = items.map((p, idx) => {
+        grid.innerHTML = items.map((p) => {
           const dog = esc(p.dog || "Bon Idee Dog");
           const owner = esc(p.owner || "");
           const breed = esc(p.breed || "");
           const story = esc(p.story || "");
-          const when = prettyDate(p.timestamp);
 
           const metaParts = [];
           if (owner) metaParts.push(`Owner: ${owner}`);
@@ -341,11 +332,10 @@
 
           return `
             <article class="card">
-              ${renderMedia(p, idx)}
+              ${renderMedia(p)}
               <div class="card-body">
                 <h3>${dog}</h3>
                 ${meta ? `<p class="small muted">${esc(meta)}</p>` : ""}
-                ${when ? `<p class="small muted">${esc(when)}</p>` : ""}
                 ${story ? `<p style="margin-top:10px;">${story}</p>` : ""}
               </div>
             </article>
@@ -355,7 +345,7 @@
         hookCarousels();
         hookLightbox();
       } catch (e) {
-        showStatus(`<h3>Collection unavailable</h3><p class="small muted">${esc(e.message || e)}</p>`);
+        showStatus(`<h3>Collective unavailable</h3><p class="small muted">${esc(e.message || e)}</p>`);
       }
     }
 
@@ -369,7 +359,6 @@
         prev.addEventListener("click", () => scrollCarousel(track, -1));
         next.addEventListener("click", () => scrollCarousel(track, 1));
 
-        // Optional: shift+mousewheel scrolls horizontally on desktops
         track.addEventListener("wheel", (e) => {
           if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
           if (!e.shiftKey) return;
@@ -384,7 +373,7 @@
       const lbImg = document.getElementById("lightboxImg");
       const lbTitle = document.getElementById("lightboxTitle");
       const lbClose = document.getElementById("lightboxClose");
-      const grid = document.getElementById("collectionGrid");
+      const grid = document.getElementById("collectiveGrid");
 
       function openLightbox(url, title) {
         lbImg.src = url;
@@ -419,7 +408,7 @@
       });
     }
 
-    renderCollection();
+    renderCollective();
   </script>
 </body>
 </html>
