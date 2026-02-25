@@ -1,189 +1,154 @@
 {
   "breed": "lowchen",
-  "generatedAt": "2026-02-24T16:17:35.303Z",
+  "generatedAt": "2026-02-25T16:52:18.685Z",
   "keepDays": 90,
   "current": [
-    {
-      "filename": "Copy_of_7296_838a94b9a8.jpeg",
-      "url": "./images/puppies/lowchen/current/Copy_of_7296_838a94b9a8.jpeg",
-      "driveName": "Copy of 7296.JPEG",
-      "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
-    },
-    {
-      "filename": "Copy_of_13126_5f0e8fb7f9.jpeg",
-      "url": "./images/puppies/lowchen/current/Copy_of_13126_5f0e8fb7f9.jpeg",
-      "driveName": "Copy of 13126.JPEG",
-      "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
-    },
-    {
-      "filename": "Copy_of_13243_90284e6060.jpeg",
-      "url": "./images/puppies/lowchen/current/Copy_of_13243_90284e6060.jpeg",
-      "driveName": "Copy of 13243.JPEG",
-      "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
-    },
     {
       "filename": "Copy_of_12541_7c5e98ed3d.jpeg",
       "url": "./images/puppies/lowchen/current/Copy_of_12541_7c5e98ed3d.jpeg",
       "driveName": "Copy of 12541.JPEG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "Copy_of_IMG_6126_e37cd93655.jpg",
       "url": "./images/puppies/lowchen/current/Copy_of_IMG_6126_e37cd93655.jpg",
       "driveName": "Copy of IMG_6126.JPG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "7296_a368615845.jpeg",
       "url": "./images/puppies/lowchen/current/7296_a368615845.jpeg",
       "driveName": "7296.JPEG",
       "firstSeen": "2026-02-04T04:39:43.941Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_6537_85a2cd9be7.jpg",
       "url": "./images/puppies/lowchen/current/IMG_6537_85a2cd9be7.jpg",
       "driveName": "IMG_6537.JPG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_7429_a07f04dd7b.jpg",
       "url": "./images/puppies/lowchen/current/IMG_7429_a07f04dd7b.jpg",
       "driveName": "IMG_7429.JPG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "12541_6dcd4ed96b.jpeg",
       "url": "./images/puppies/lowchen/current/12541_6dcd4ed96b.jpeg",
       "driveName": "12541.JPEG",
       "firstSeen": "2026-02-04T04:39:43.941Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "13126_63f8f5e547.jpeg",
       "url": "./images/puppies/lowchen/current/13126_63f8f5e547.jpeg",
       "driveName": "13126.JPEG",
       "firstSeen": "2026-02-04T04:39:43.941Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "13243_69e90be8a9.jpeg",
       "url": "./images/puppies/lowchen/current/13243_69e90be8a9.jpeg",
       "driveName": "13243.JPEG",
       "firstSeen": "2026-02-04T04:39:43.941Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_1668_d544709cf7.jpeg",
       "url": "./images/puppies/lowchen/current/IMG_1668_d544709cf7.jpeg",
       "driveName": "IMG_1668.JPEG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_7610_b1045ef0c7.jpg",
       "url": "./images/puppies/lowchen/current/IMG_7610_b1045ef0c7.jpg",
       "driveName": "IMG_7610.HEIC",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_5843_718b1cf416.jpg",
       "url": "./images/puppies/lowchen/current/IMG_5843_718b1cf416.jpg",
       "driveName": "IMG_5843.HEIC",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_1670_b25c648668.jpeg",
       "url": "./images/puppies/lowchen/current/IMG_1670_b25c648668.jpeg",
       "driveName": "IMG_1670.JPEG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_9307_8c48f02037.jpg",
       "url": "./images/puppies/lowchen/current/IMG_9307_8c48f02037.jpg",
       "driveName": "IMG_9307.JPG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_9343_9a38667293.jpg",
       "url": "./images/puppies/lowchen/current/IMG_9343_9a38667293.jpg",
       "driveName": "IMG_9343.JPG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_2576_551721ebe4.jpg",
       "url": "./images/puppies/lowchen/current/IMG_2576_551721ebe4.jpg",
       "driveName": "IMG_2576.JPG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_2720_0ea1d7dab7.jpg",
       "url": "./images/puppies/lowchen/current/IMG_2720_0ea1d7dab7.jpg",
       "driveName": "IMG_2720.HEIC",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_5478_c21677e539.jpeg",
       "url": "./images/puppies/lowchen/current/IMG_5478_c21677e539.jpeg",
       "driveName": "IMG_5478.JPEG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_4517_b18ddf3a3a.jpg",
       "url": "./images/puppies/lowchen/current/IMG_4517_b18ddf3a3a.jpg",
       "driveName": "IMG_4517.JPG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_4657_deb33ad290.jpeg",
       "url": "./images/puppies/lowchen/current/IMG_4657_deb33ad290.jpeg",
       "driveName": "IMG_4657.JPEG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
-    },
-    {
-      "filename": "IMG_8556_c352b87776.jpeg",
-      "url": "./images/puppies/lowchen/current/IMG_8556_c352b87776.jpeg",
-      "driveName": "IMG_8556.JPEG",
-      "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_8905_1a6401a67c.jpg",
       "url": "./images/puppies/lowchen/current/IMG_8905_1a6401a67c.jpg",
       "driveName": "IMG_8905.JPG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     },
     {
       "filename": "IMG_5969_c5f0c25ddc.png",
       "url": "./images/puppies/lowchen/current/IMG_5969_c5f0c25ddc.png",
       "driveName": "IMG_5969.PNG",
       "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
-    },
-    {
-      "filename": "IMG_5979_2ec5ad36ea.jpg",
-      "url": "./images/puppies/lowchen/current/IMG_5979_2ec5ad36ea.jpg",
-      "driveName": "IMG_5979.JPG",
-      "firstSeen": "2026-02-04T04:49:35.144Z",
-      "ageDays": 20
+      "ageDays": 21
     }
   ],
   "archiveCount": 0
