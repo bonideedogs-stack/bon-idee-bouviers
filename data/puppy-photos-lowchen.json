@@ -1,36 +1,7 @@
 {
   "breed": "lowchen",
-  "generatedAt": "2026-05-28T16:52:49.176Z",
+  "generatedAt": "2026-05-29T16:41:25.362Z",
   "keepDays": 90,
-  "current": [
-    {
-      "filename": "IMG_1085_d7d086369d.jpg",
-      "url": "./images/puppies/lowchen/current/IMG_1085_d7d086369d.jpg",
-      "driveName": "IMG_1085.JPG",
-      "firstSeen": "2026-02-27T15:05:31.079Z",
-      "ageDays": 90
-    },
-    {
-      "filename": "IMG_0624_2f1bc19fe3.jpg",
-      "url": "./images/puppies/lowchen/current/IMG_0624_2f1bc19fe3.jpg",
-      "driveName": "IMG_0624.JPG",
-      "firstSeen": "2026-02-27T15:05:31.079Z",
-      "ageDays": 90
-    },
-    {
-      "filename": "IMG_0625_2d2d55e1e3.jpg",
-      "url": "./images/puppies/lowchen/current/IMG_0625_2d2d55e1e3.jpg",
-      "driveName": "IMG_0625.JPG",
-      "firstSeen": "2026-02-27T15:05:31.079Z",
-      "ageDays": 90
-    },
-    {
-      "filename": "IMG_0729_1a773e364b.jpg",
-      "url": "./images/puppies/lowchen/current/IMG_0729_1a773e364b.jpg",
-      "driveName": "IMG_0729.JPG",
-      "firstSeen": "2026-02-27T15:05:31.079Z",
-      "ageDays": 90
-    }
-  ],
-  "archiveCount": 21
+  "current": [],
+  "archiveCount": 25
 }
